@@ -1,12 +1,17 @@
 <template>
-  <div class="tracking-container" v-loading="loading">
+  <div class="tracking-container">
     <van-nav-bar
       title="訂單進度追蹤"
       right-text="返回點餐"
       @click-right="goToMenu"
     />
 
-    <div v-if="order" class="tracking-content">
+    <!-- Loading State -->
+    <div v-if="loading && !order" class="loading-state">
+      <van-loading type="spinner" color="#0284c7" vertical>載入訂單進度中...</van-loading>
+    </div>
+
+    <div v-else-if="order" class="tracking-content">
       <!-- Status Card -->
       <div class="status-card">
         <div class="status-top">
@@ -249,6 +254,13 @@ onUnmounted(() => {
   background-color: #f8fafc;
   display: flex;
   flex-direction: column;
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 0;
 }
 
 .tracking-content {
