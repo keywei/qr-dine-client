@@ -1,20 +1,9 @@
 import { defineStore } from 'pinia';
-
-export interface CartItem {
-  id: string; // unique item key
-  menuItemId: number;
-  name: string;
-  basePrice: number;
-  price: number;
-  quantity: number;
-  imageUrl?: string;
-  optionsText?: string;
-  options?: string[];
-}
+import type { CartItem, DiningType, MenuItem } from '../types';
 
 export const useCartStore = defineStore('cart', {
   state: () => ({
-    diningType: (localStorage.getItem('dining_type') || 'DINE_IN') as 'DINE_IN' | 'TAKEOUT',
+    diningType: (localStorage.getItem('dining_type') || 'DINE_IN') as DiningType,
     tableCode: localStorage.getItem('table_code') || '',
     items: [] as CartItem[],
   }),
@@ -23,18 +12,17 @@ export const useCartStore = defineStore('cart', {
     totalAmount: (state) => state.items.reduce((acc, item) => acc + item.price * item.quantity, 0),
   },
   actions: {
-    setDiningInfo(type: 'DINE_IN' | 'TAKEOUT', tableCode?: string) {
+    setDiningInfo(type: DiningType, tableCode?: string) {
       this.diningType = type;
       localStorage.setItem('dining_type', type);
+      this.tableCode = tableCode || '';
       if (tableCode) {
-        this.tableCode = tableCode;
         localStorage.setItem('table_code', tableCode);
       } else {
-        this.tableCode = '';
         localStorage.removeItem('table_code');
       }
     },
-    addItem(dish: any, quantity: number, selectedOptionsText: string, unitPrice: number) {
+    addItem(dish: MenuItem, quantity: number, selectedOptionsText: string, unitPrice: number) {
       const itemKey = `${dish.id}_${selectedOptionsText || 'default'}`;
       const existing = this.items.find((it) => it.id === itemKey);
 
@@ -55,18 +43,11 @@ export const useCartStore = defineStore('cart', {
     },
     updateQuantity(cartItemId: string, newQty: number) {
       const index = this.items.findIndex((it) => it.id === cartItemId);
-      if (index !== -1) {
-        if (newQty <= 0) {
-          this.items.splice(index, 1);
-        } else {
-          this.items[index].quantity = newQty;
-        }
-      }
-    },
-    removeItem(cartItemId: string) {
-      const index = this.items.findIndex((it) => it.id === cartItemId);
-      if (index !== -1) {
+      if (index === -1) return;
+      if (newQty <= 0) {
         this.items.splice(index, 1);
+      } else {
+        this.items[index].quantity = newQty;
       }
     },
     clearCart() {
@@ -74,4 +55,3 @@ export const useCartStore = defineStore('cart', {
     },
   },
 });
-
