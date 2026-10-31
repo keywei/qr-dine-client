@@ -51,15 +51,15 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { showToast, showConfirmDialog } from 'vant';
-import { useCartStore } from '../stores/cart';
-import type { MenuItem } from '../types';
-import { useDishSpecs } from '../composables/useDishSpecs';
-import { useMenuCategories } from '../composables/useMenuCategories';
-import DiningBadge from '../components/DiningBadge.vue';
-import DishCard from '../components/DishCard.vue';
-import DishSpecsPopup from '../components/DishSpecsPopup.vue';
-import CartBar from '../components/CartBar.vue';
-import CartDrawer from '../components/CartDrawer.vue';
+import { useCartStore } from '@/stores/cart';
+import type { MenuItem } from '@/types';
+import { useDishSpecs } from '@/composables/useDishSpecs';
+import { useMenuCategories } from '@/composables/useMenuCategories';
+import DiningBadge from '@/components/DiningBadge.vue';
+import DishCard from '@/components/DishCard.vue';
+import DishSpecsPopup from '@/components/DishSpecsPopup.vue';
+import CartBar from '@/components/CartBar.vue';
+import CartDrawer from '@/components/CartDrawer.vue';
 
 const route = useRoute();
 const router = useRouter();

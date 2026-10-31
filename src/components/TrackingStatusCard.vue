@@ -37,8 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import { useOrderStatus } from '../composables/useOrderStatus';
-import DiningBadge from './DiningBadge.vue';
+import { useOrderStatus } from '@/composables/useOrderStatus';
+import DiningBadge from '@/components/DiningBadge.vue';
 
 defineProps<{
   order: any;

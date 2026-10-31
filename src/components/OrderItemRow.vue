@@ -6,7 +6,7 @@
         {{ item.optionsText }}
       </div>
     </div>
-    <div class="text-xs text-slate-500 font-medium px-3"> {{ item.quantity }}</div>
+    <div class="text-xs text-slate-500 font-medium px-3">x {{ item.quantity }}</div>
     <div class="text-sm font-bold text-slate-800 text-right min-w-[70px]">
       NT$ {{ item.price * item.quantity }}
     </div>
@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { OrderItem, CartItem } from '../types';
+import type { OrderItem, CartItem } from '@/types';
 
 defineProps<{
   item: OrderItem | CartItem;

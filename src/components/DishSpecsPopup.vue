@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import type { MenuItem, MenuItemOptionGroup, MenuItemOption } from '../types';
+import type { MenuItem, MenuItemOptionGroup, MenuItemOption } from '@/types';
 
 defineProps<{
   visible: boolean;

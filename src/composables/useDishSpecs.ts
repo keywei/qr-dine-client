@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import type { MenuItem, MenuItemOptionGroup, MenuItemOption } from '../types';
+import type { MenuItem, MenuItemOptionGroup, MenuItemOption } from '@/types';
 
 export const useDishSpecs = () => {
   const currentDish = ref<MenuItem | null>(null);

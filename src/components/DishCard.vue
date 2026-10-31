@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import type { MenuItem } from '../types';
+import type { MenuItem } from '@/types';
 
 defineProps<{
   dish: MenuItem;

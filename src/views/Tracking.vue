@@ -33,11 +33,11 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { showToast, showNotify } from 'vant';
-import api from '../api';
-import { getClientSocket, joinOrderRoom, leaveOrderRoom } from '../socket';
-import { useOrderStatus } from '../composables/useOrderStatus';
-import TrackingStatusCard from '../components/TrackingStatusCard.vue';
-import OrderItemRow from '../components/OrderItemRow.vue';
+import api from '@/api';
+import { getClientSocket, joinOrderRoom, leaveOrderRoom } from '@/socket';
+import { useOrderStatus } from '@/composables/useOrderStatus';
+import TrackingStatusCard from '@/components/TrackingStatusCard.vue';
+import OrderItemRow from '@/components/OrderItemRow.vue';
 
 const route = useRoute();
 const router = useRouter();

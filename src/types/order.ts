@@ -1,4 +1,4 @@
-import type { DiningType } from './cart';
+import type { DiningType } from '@/types/cart';
 
 export type OrderStatus = 'PENDING' | 'PREPARING' | 'READY' | 'COMPLETED' | 'CANCELLED';
 export type PaymentStatus = 'UNPAID' | 'PAID' | 'REFUNDED';

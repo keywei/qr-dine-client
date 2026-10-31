@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Order from '../views/Order.vue';
-import Checkout from '../views/Checkout.vue';
-import Tracking from '../views/Tracking.vue';
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import Order from '@/views/Order.vue';
+import Checkout from '@/views/Checkout.vue';
+import Tracking from '@/views/Tracking.vue';
 
-const routes = [
+const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/order',
@@ -31,4 +31,3 @@ const router = createRouter({
 });
 
 export default router;
-

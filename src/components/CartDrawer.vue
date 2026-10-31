@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import type { CartItem } from '../types';
+import type { CartItem } from '@/types';
 
 defineProps<{
   visible: boolean;

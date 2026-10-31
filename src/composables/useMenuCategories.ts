@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
-import api from '../api';
-import type { Category } from '../types';
+import api from '@/api';
+import type { Category } from '@/types';
 
 export const useMenuCategories = () => {
   const categories = ref<Category[]>([]);

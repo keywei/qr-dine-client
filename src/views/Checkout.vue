@@ -44,12 +44,12 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { showToast } from 'vant';
-import api from '../api';
-import { useCartStore } from '../stores/cart';
-import type { PaymentMethod } from '../types';
-import DiningBadge from '../components/DiningBadge.vue';
-import OrderItemRow from '../components/OrderItemRow.vue';
-import PaymentMethodSelector from '../components/PaymentMethodSelector.vue';
+import api from '@/api';
+import { useCartStore } from '@/stores/cart';
+import type { PaymentMethod } from '@/types';
+import DiningBadge from '@/components/DiningBadge.vue';
+import OrderItemRow from '@/components/OrderItemRow.vue';
+import PaymentMethodSelector from '@/components/PaymentMethodSelector.vue';
 
 const router = useRouter();
 const cartStore = useCartStore();

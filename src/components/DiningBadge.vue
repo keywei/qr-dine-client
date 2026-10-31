@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DiningType } from '../types';
+import type { DiningType } from '@/types';
 
 withDefaults(
   defineProps<{
