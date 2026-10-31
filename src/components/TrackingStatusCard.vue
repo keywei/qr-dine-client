@@ -1,14 +1,18 @@
 <template>
   <div class="bg-white rounded-xl p-4 shadow-sm">
-    <div class="flex justify-between items-start mb-3 pb-3 border-b border-slate-100">
-      <div class="flex items-center gap-3">
-        <span class="text-3xl">{{ getStatusEmoji(order.status) }}</span>
-        <div>
-          <h3 class="m-0 text-base font-bold text-slate-800">{{ getStatusTitle(order.status, order.paymentStatus) }}</h3>
-          <p class="m-0 mt-0.5 text-xs text-slate-500">{{ getStatusDesc(order.status, order.paymentStatus, order.paymentMethod) }}</p>
+    <div class="flex justify-between items-start gap-2.5 mb-3 pb-3 border-b border-slate-100">
+      <div class="flex items-center gap-2.5 flex-1 min-w-0">
+        <span class="text-3xl shrink-0">{{ getStatusEmoji(order.status) }}</span>
+        <div class="flex-1 min-w-0">
+          <h3 class="m-0 text-base font-bold text-slate-800 truncate">{{ getStatusTitle(order.status, order.paymentStatus) }}</h3>
+          <p class="m-0 mt-0.5 text-xs text-slate-500 leading-normal">{{ getStatusDesc(order.status, order.paymentStatus, order.paymentMethod) }}</p>
         </div>
       </div>
-      <DiningBadge :dining-type="order.diningType" :table-code="order.table?.code" />
+      <DiningBadge
+        :dining-type="order.diningType"
+        :table-code="order.table?.code || order.tableCode"
+        class="shrink-0 mt-0.5"
+      />
     </div>
 
     <van-steps :active="getStepIndex(order.status, order.paymentStatus)" active-color="#0284c7" class="py-2">
@@ -47,4 +51,3 @@ defineEmits<{
 
 const { getStatusEmoji, getStatusTitle, getStatusDesc, getStepIndex } = useOrderStatus();
 </script>
-

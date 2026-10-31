@@ -3,6 +3,7 @@
     :type="diningType === 'DINE_IN' ? 'danger' : 'warning'"
     :size="size"
     round
+    class="whitespace-nowrap shrink-0 !inline-flex items-center"
   >
     {{ diningType === 'DINE_IN' ? `內用桌號：${tableCode || '未指定'}` : '外帶自取模式' }}
   </van-tag>
