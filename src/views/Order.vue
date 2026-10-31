@@ -16,62 +16,75 @@
       <van-search v-model="searchQuery" placeholder="搜尋想吃的餐點..." shape="round" />
     </div>
 
-    <!-- Main Content: Category Sidebar + Dish List -->
-    <div class="menu-layout">
-      <!-- Left Sidebar Categories -->
-      <van-sidebar v-model="activeCategoryIndex" class="category-sidebar">
-        <van-sidebar-item
+    <!-- Category Horizontal Tabs (Above dishes list) -->
+    <div class="category-tabs-wrap">
+      <van-tabs
+        v-model:active="selectedCategoryId"
+        shrink
+        color="#0284c7"
+        line-width="20px"
+        line-height="3px"
+        class="category-tabs"
+        @change="handleCategoryChange"
+      >
+        <van-tab :name="0" title="全部" :badge="totalCartBadge" />
+        <van-tab
           v-for="cat in categories"
           :key="cat.id"
+          :name="cat.id"
           :title="cat.name"
           :badge="getCategoryBadge(cat.id)"
         />
-      </van-sidebar>
+      </van-tabs>
+    </div>
 
-      <!-- Right Dishes List -->
-      <div class="dishes-container" ref="dishesContainerRef">
-        <div v-for="cat in filteredCategories" :key="cat.id" class="category-section">
-          <div class="section-title">{{ cat.name }}</div>
+    <!-- Dishes List -->
+    <div class="dishes-container" ref="dishesContainerRef">
+      <div v-if="filteredCategories.length === 0" class="empty-state">
+        <van-empty description="暫無符合的餐點" image="search" />
+      </div>
 
-          <div class="dishes-list">
-            <div v-for="dish in cat.items" :key="dish.id" class="dish-card">
-              <div class="dish-thumb-box">
-                <img :src="dish.imageUrl || defaultDishImg" class="dish-thumb" />
-                <div v-if="!dish.isAvailable" class="sold-out-mask">已估清</div>
-              </div>
+      <div v-for="cat in filteredCategories" :key="cat.id" class="category-section">
+        <div class="section-title">{{ cat.name }}</div>
 
-              <div class="dish-details">
-                <h4 class="dish-name">{{ dish.name }}</h4>
-                <p class="dish-desc">{{ dish.description || '特選食材精心製作' }}</p>
-                <div class="dish-bottom">
-                  <span class="dish-price">NT$ {{ dish.price }}</span>
+        <div class="dishes-list">
+          <div v-for="dish in cat.items" :key="dish.id" class="dish-card">
+            <div class="dish-thumb-box">
+              <img :src="dish.imageUrl || defaultDishImg" class="dish-thumb" />
+              <div v-if="!dish.isAvailable" class="sold-out-mask">已估清</div>
+            </div>
 
-                  <div class="dish-action">
-                    <template v-if="dish.isAvailable">
-                      <!-- If has option groups, open specs popup -->
-                      <van-button
-                        v-if="dish.options && dish.options.length > 0"
-                        size="mini"
-                        type="primary"
-                        round
-                        class="spec-btn"
-                        @click="openSpecsPopup(dish)"
-                      >
-                        選規格
-                      </van-button>
-                      <!-- Otherwise direct add -->
-                      <van-button
-                        v-else
-                        size="mini"
-                        icon="plus"
-                        type="primary"
-                        round
-                        class="plus-btn"
-                        @click="directAddToCart(dish)"
-                      />
-                    </template>
-                    <span v-else class="text-disabled">暫停供應</span>
-                  </div>
+            <div class="dish-details">
+              <h4 class="dish-name">{{ dish.name }}</h4>
+              <p class="dish-desc">{{ dish.description || '特選食材精心製作' }}</p>
+              <div class="dish-bottom">
+                <span class="dish-price">NT$ {{ dish.price }}</span>
+
+                <div class="dish-action">
+                  <template v-if="dish.isAvailable">
+                    <!-- If has option groups, open specs popup -->
+                    <van-button
+                      v-if="dish.options && dish.options.length > 0"
+                      size="mini"
+                      type="primary"
+                      round
+                      class="spec-btn"
+                      @click="openSpecsPopup(dish)"
+                    >
+                      選規格
+                    </van-button>
+                    <!-- Otherwise direct add -->
+                    <van-button
+                      v-else
+                      size="mini"
+                      icon="plus"
+                      type="primary"
+                      round
+                      class="plus-btn"
+                      @click="directAddToCart(dish)"
+                    />
+                  </template>
+                  <span v-else class="text-disabled">暫停供應</span>
                 </div>
               </div>
             </div>
@@ -215,8 +228,9 @@ const router = useRouter();
 const cartStore = useCartStore();
 
 const categories = ref<any[]>([]);
-const activeCategoryIndex = ref(0);
+const selectedCategoryId = ref<number>(0); // 0 表示「全部」
 const searchQuery = ref('');
+const dishesContainerRef = ref<HTMLElement | null>(null);
 
 // Specs Popup state
 const specsPopupVisible = ref(false);
@@ -228,23 +242,43 @@ const selectedOptionsMap = ref<Record<number, any[]>>({}); // groupId -> array o
 const cartDrawerVisible = ref(false);
 
 const filteredCategories = computed(() => {
-  if (!searchQuery.value) return categories.value;
-  const q = searchQuery.value.toLowerCase();
-  return categories.value
+  // 1. 根據選取的分類進行篩選
+  let list = categories.value;
+  if (selectedCategoryId.value !== 0) {
+    list = list.filter((cat) => cat.id === selectedCategoryId.value);
+  }
+
+  // 2. 根據關鍵字進行搜尋篩選
+  if (!searchQuery.value) return list;
+  const q = searchQuery.value.toLowerCase().trim();
+  return list
     .map((cat) => ({
       ...cat,
-      items: cat.items.filter((dish: any) => dish.name.toLowerCase().includes(q)),
+      items: cat.items.filter((dish: any) =>
+        dish.name.toLowerCase().includes(q) ||
+        (dish.description && dish.description.toLowerCase().includes(q))
+      ),
     }))
     .filter((cat) => cat.items.length > 0);
+});
+
+const totalCartBadge = computed(() => {
+  return cartStore.totalCount > 0 ? cartStore.totalCount : undefined;
 });
 
 const getCategoryBadge = (catId: number) => {
   const cat = categories.value.find((c) => c.id === catId);
   if (!cat) return undefined;
   const count = cartStore.items
-    .filter((it) => cat.items.some((d: any) => d.id === it.menuItemId))
+    .filter((it) => cat.items?.some((d: any) => d.id === it.menuItemId))
     .reduce((sum, it) => sum + it.quantity, 0);
   return count > 0 ? count : undefined;
+};
+
+const handleCategoryChange = () => {
+  if (dishesContainerRef.value) {
+    dishesContainerRef.value.scrollTop = 0;
+  }
 };
 
 const fetchMenu = async () => {
@@ -410,22 +444,40 @@ onMounted(() => {
   color: #0f172a;
 }
 
-.menu-layout {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
+/* Category Horizontal Tabs Wrap */
+.category-tabs-wrap {
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  z-index: 10;
 }
 
-.category-sidebar {
-  width: 90px;
-  background-color: #f1f5f9;
-  overflow-y: auto;
+.category-tabs :deep(.van-tabs__nav) {
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
+.category-tabs :deep(.van-tab) {
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.category-tabs :deep(.van-tab--active) {
+  font-weight: 700;
+  color: #0284c7;
+}
+
+/* Dishes Container */
 .dishes-container {
   flex: 1;
-  padding: 10px 12px 80px 12px;
+  padding: 12px 14px 80px 14px;
   overflow-y: auto;
+}
+
+.empty-state {
+  padding: 40px 0;
 }
 
 .category-section {
@@ -433,11 +485,11 @@ onMounted(() => {
 }
 
 .section-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
-  color: #475569;
+  color: #334155;
   margin-bottom: 10px;
-  padding-left: 4px;
+  padding-left: 6px;
   border-left: 3px solid #0284c7;
 }
 
@@ -449,16 +501,16 @@ onMounted(() => {
 
 .dish-card {
   background: #ffffff;
-  border-radius: 10px;
-  padding: 10px;
+  border-radius: 12px;
+  padding: 12px;
   display: flex;
   gap: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 .dish-thumb-box {
-  width: 78px;
-  height: 78px;
+  width: 82px;
+  height: 82px;
   position: relative;
   border-radius: 8px;
   overflow: hidden;
@@ -501,7 +553,7 @@ onMounted(() => {
 }
 
 .dish-desc {
-  margin: 3px 0 0 0;
+  margin: 4px 0 0 0;
   font-size: 12px;
   color: #64748b;
   display: -webkit-box;
@@ -525,12 +577,12 @@ onMounted(() => {
 
 .spec-btn {
   padding: 0 10px;
-  height: 24px;
+  height: 26px;
 }
 
 .plus-btn {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
 }
 
 .text-disabled {
@@ -791,4 +843,3 @@ onMounted(() => {
   color: #e11d48;
 }
 </style>
-
