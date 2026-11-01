@@ -39,9 +39,10 @@
 <script setup lang="ts">
 import { useOrderStatus } from '@/composables/useOrderStatus';
 import DiningBadge from '@/components/DiningBadge.vue';
+import type { Order } from '@/types';
 
 defineProps<{
-  order: any;
+  order: Order;
   paying: boolean;
 }>();
 
