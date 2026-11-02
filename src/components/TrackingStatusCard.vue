@@ -16,23 +16,23 @@
     </div>
 
     <van-steps :active="getStepIndex(order.status, order.paymentStatus)" active-color="#0284c7" class="py-2">
-      <van-step>送出訂單</van-step>
-      <van-step>{{ order.paymentStatus === 'PAID' ? '已付款' : '待付款' }}</van-step>
-      <van-step>製作中</van-step>
-      <van-step>已完成</van-step>
+      <van-step>{{ $t('tracking.stepSubmitted') }}</van-step>
+      <van-step>{{ order.paymentStatus === 'PAID' ? $t('tracking.stepPaid') : $t('tracking.stepUnpaid') }}</van-step>
+      <van-step>{{ $t('tracking.stepCooking') }}</van-step>
+      <van-step>{{ $t('tracking.stepCompleted') }}</van-step>
     </van-steps>
 
     <div v-if="order.paymentStatus === 'UNPAID' && order.paymentMethod === 'ONLINE'" class="mt-3 pt-3 border-t border-slate-100 flex flex-col gap-2">
-      <p class="text-xs text-slate-600 m-0 mb-1">請點擊下方按鈕完成模擬付款：</p>
+      <p class="text-xs text-slate-600 m-0 mb-1">{{ $t('tracking.payPrompt') }}</p>
       <van-button type="primary" round block size="large" color="#06c755" :loading="paying" @click="$emit('pay', 'LINE_PAY')">
-        🟢 LINE Pay 模擬支付 (NT$ {{ order.totalAmount }})
+        {{ $t('tracking.payLinePay', { amount: order.totalAmount }) }}
       </van-button>
       <van-button type="default" round block size="normal" :loading="paying" @click="$emit('pay', 'CREDIT_CARD')">
-        💳 信用卡 模擬支付 (NT$ {{ order.totalAmount }})
+        {{ $t('tracking.payCreditCard', { amount: order.totalAmount }) }}
       </van-button>
     </div>
 
-    <van-notice-bar v-else-if="order.paymentStatus === 'UNPAID' && order.paymentMethod === 'CASH'" class="mt-3 rounded-lg" left-icon="info-o" text="請至櫃檯出示單號結帳，店員收款後將立即製作！" wrapable :scrollable="false" />
+    <van-notice-bar v-else-if="order.paymentStatus === 'UNPAID' && order.paymentMethod === 'CASH'" class="mt-3 rounded-lg" left-icon="info-o" :text="$t('tracking.cashNotice')" wrapable :scrollable="false" />
   </div>
 </template>
 

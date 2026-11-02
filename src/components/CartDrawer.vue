@@ -1,8 +1,8 @@
 <template>
   <van-popup :show="visible" position="bottom" round class="p-4 max-h-[70vh]" @update:show="$emit('update:visible', $event)">
     <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-      <span class="text-base font-bold text-slate-800">購物車清單 ({{ totalCount }}項)</span>
-      <van-button size="mini" plain type="danger" @click="$emit('clear')">清空購物車</van-button>
+      <span class="text-base font-bold text-slate-800">{{ $t('cart.listTitle', { count: totalCount }) }}</span>
+      <van-button size="mini" plain type="danger" @click="$emit('clear')">{{ $t('cart.clear') }}</van-button>
     </div>
 
     <div class="max-h-[40vh] overflow-y-auto py-2.5 flex flex-col gap-3">
@@ -24,7 +24,7 @@
 
     <div class="pt-3.5 border-t border-slate-100">
       <div class="flex justify-between items-baseline mb-3">
-        <span class="text-sm text-slate-600">總計金額：</span>
+        <span class="text-sm text-slate-600">{{ $t('cart.totalAmount') }}</span>
         <span class="text-xl font-extrabold text-rose-600">NT$ {{ totalAmount }}</span>
       </div>
       <van-button
@@ -35,7 +35,7 @@
         color="linear-gradient(to right, #0284c7, #0369a1)"
         @click="$emit('checkout')"
       >
-        確認前往結帳
+        {{ $t('cart.proceedToCheckout') }}
       </van-button>
     </div>
   </van-popup>

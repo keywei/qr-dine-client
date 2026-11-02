@@ -5,7 +5,7 @@
     round
     class="whitespace-nowrap shrink-0 !inline-flex items-center"
   >
-    {{ diningType === 'DINE_IN' ? `內用桌號：${tableCode || '未指定'}` : '外帶自取模式' }}
+    {{ diningType === 'DINE_IN' ? $t('dining.dineIn', { code: tableCode || $t('dining.unassigned') }) : $t('dining.takeout') }}
   </van-tag>
 </template>
 

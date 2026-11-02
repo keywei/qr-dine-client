@@ -2,21 +2,21 @@
   <div class="h-screen flex flex-col bg-slate-50 overflow-hidden">
     <div class="bg-white px-4 pt-3 pb-1 shadow-sm shrink-0">
       <div class="flex justify-between items-center mb-1.5">
-        <h2 class="m-0 text-lg font-extrabold text-slate-900">🍜 美味食堂</h2>
+        <h2 class="m-0 text-lg font-extrabold text-slate-900">{{ $t('order.title') }}</h2>
         <DiningBadge :dining-type="cartStore.diningType" :table-code="cartStore.tableCode" />
       </div>
-      <van-search v-model="searchQuery" placeholder="搜尋想吃的餐點..." shape="round" />
+      <van-search v-model="searchQuery" :placeholder="$t('order.searchPlaceholder')" shape="round" />
     </div>
 
     <div class="bg-white border-b border-slate-100 z-10 shrink-0">
       <van-tabs v-model:active="selectedCatId" shrink color="#0284c7" line-width="20px" line-height="3px" @change="onCatChange">
-        <van-tab :name="0" title="全部" :badge="cartStore.totalCount || undefined" />
+        <van-tab :name="0" :title="$t('order.allCategories')" :badge="cartStore.totalCount || undefined" />
         <van-tab v-for="c in categories" :key="c.id" :name="c.id" :title="c.name" :badge="getCatBadge(c.id)" />
       </van-tabs>
     </div>
 
     <div ref="scrollRef" class="flex-1 p-3.5 pb-24 overflow-y-auto">
-      <van-empty v-if="filteredCats.length === 0" description="暫無符合的餐點" image="search" class="py-10" />
+      <van-empty v-if="filteredCats.length === 0" :description="$t('order.noDishes')" image="search" class="py-10" />
       <div v-for="cat in filteredCats" :key="cat.id" class="mb-5">
         <div class="text-[15px] font-bold text-slate-700 mb-2.5 pl-2 border-l-[3px] border-sky-600">{{ cat.name }}</div>
         <div class="flex flex-col gap-3">
@@ -51,6 +51,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { showToast, showConfirmDialog } from 'vant';
+import { useI18n } from 'vue-i18n';
 import { useCartStore } from '@/stores/cart';
 import type { MenuItem } from '@/types';
 import { useDishSpecs } from '@/composables/useDishSpecs';
@@ -63,6 +64,7 @@ import CartDrawer from '@/components/CartDrawer.vue';
 
 const route = useRoute();
 const router = useRouter();
+const { t } = useI18n();
 const cartStore = useCartStore();
 const { categories, selectedCatId, searchQuery, filteredCats, fetchMenu } = useMenuCategories();
 const { currentDish, selectedQuantity, currentUnitPrice, openSpecs, isOptionSelected, toggleOption, validateRequired, getSpecsText } = useDishSpecs();
@@ -80,18 +82,18 @@ const getCatBadge = (id: number) => {
 
 const onCatChange = () => { if (scrollRef.value) scrollRef.value.scrollTop = 0; };
 const onOpenSpecs = (dish: MenuItem) => { openSpecs(dish); specsVisible.value = true; };
-const onDirectAdd = (dish: MenuItem) => { cartStore.addItem(dish, 1, '', dish.price); showToast({ message: '已加入購物車', icon: 'success' }); };
+const onDirectAdd = (dish: MenuItem) => { cartStore.addItem(dish, 1, '', dish.price); showToast({ message: t('order.addedToCart'), icon: 'success' }); };
 const onConfirmSpecs = () => {
   const err = validateRequired();
   if (err) return showToast(err);
   if (currentDish.value) {
     cartStore.addItem(currentDish.value, selectedQuantity.value, getSpecsText(), currentUnitPrice.value);
     specsVisible.value = false;
-    showToast({ message: '已加入購物車', icon: 'success' });
+    showToast({ message: t('order.addedToCart'), icon: 'success' });
   }
 };
-const onClearCart = () => showConfirmDialog({ title: '提示', message: '確定要清空購物車嗎？' }).then(() => { cartStore.clearCart(); drawerVisible.value = false; });
-const onCheckout = () => { if (cartStore.totalCount === 0) return showToast('購物車內尚無餐點'); drawerVisible.value = false; router.push('/checkout'); };
+const onClearCart = () => showConfirmDialog({ title: t('common.dialogTitle'), message: t('cart.clearConfirm') }).then(() => { cartStore.clearCart(); drawerVisible.value = false; });
+const onCheckout = () => { if (cartStore.totalCount === 0) return showToast(t('cart.emptyCartTip')); drawerVisible.value = false; router.push('/checkout'); };
 
 onMounted(() => {
   cartStore.setDiningInfo(route.query.diningType === 'TAKEOUT' ? 'TAKEOUT' : 'DINE_IN', (route.query.tableId as string) || 'A1');

@@ -1,0 +1,100 @@
+{
+  "common": {
+    "dialogTitle": "提示",
+    "confirm": "確定",
+    "cancel": "取消"
+  },
+  "dining": {
+    "dineIn": "內用桌號：{code}",
+    "unassigned": "未指定",
+    "takeout": "外帶自取模式"
+  },
+  "order": {
+    "title": "🍜 美味食堂",
+    "searchPlaceholder": "搜尋想吃的餐點...",
+    "allCategories": "全部",
+    "noDishes": "暫無符合的餐點",
+    "addedToCart": "已加入購物車"
+  },
+  "cart": {
+    "listTitle": "購物車清單 ({count}項)",
+    "clear": "清空購物車",
+    "clearConfirm": "確定要清空購物車嗎？",
+    "emptyCartTip": "購物車內尚無餐點",
+    "totalAmount": "總計金額：",
+    "checkout": "去結帳",
+    "proceedToCheckout": "確認前往結帳"
+  },
+  "dish": {
+    "soldOut": "已估清",
+    "defaultDescription": "特選食材精心製作",
+    "chooseSpecs": "選規格",
+    "unavailable": "暫停供應"
+  },
+  "specs": {
+    "required": "*必選",
+    "single": "單選",
+    "multiple": "可複選",
+    "quantity": "購買數量",
+    "addToCartWithPrice": "加入購物車 (NT$ {price})",
+    "selectRequired": "請選擇 {title}"
+  },
+  "checkout": {
+    "title": "確認結帳",
+    "backToMenu": "返回選餐",
+    "diningType": "用餐方式",
+    "orderDetail": "餐點明細",
+    "itemCount": "共 {count} 項",
+    "subtotal": "小計",
+    "phoneLabel": "聯絡電話",
+    "phonePlaceholder": "外帶請填寫手機取餐憑證",
+    "noteLabel": "備註需求",
+    "notePlaceholder": "例：不要蔥、不要辣",
+    "payableAmount": "應付金額：",
+    "submitOrder": "確認送出訂單",
+    "phoneRequired": "外帶請提供聯絡電話方便取餐",
+    "orderCreated": "訂單建立成功！"
+  },
+  "payment": {
+    "title": "付款方式",
+    "subtitle": "先結帳後出餐",
+    "onlineTitle": "線上支付 (LINE Pay / 信用卡)",
+    "onlineDesc": "送單後完成線上模擬支付，立即送廚房製作",
+    "cashTitle": "現場櫃檯支付 (現金 / 實體刷卡)",
+    "cashDesc": "送單後請至櫃檯結帳，確認收款後製作"
+  },
+  "tracking": {
+    "title": "訂單進度追蹤",
+    "backToOrder": "返回點餐",
+    "loading": "載入訂單進度中...",
+    "orderDetail": "訂單詳情",
+    "orderNoLabel": "單號：",
+    "noteLabel": "備註需求：",
+    "totalAmount": "總計金額",
+    "backToMenu": "回到菜單 / 再次加點",
+    "paySuccess": "付款成功！訂單已送至廚房",
+    "statusUpdated": "狀態更新：{status}",
+    "stepSubmitted": "送出訂單",
+    "stepPaid": "已付款",
+    "stepUnpaid": "待付款",
+    "stepCooking": "製作中",
+    "stepCompleted": "已完成",
+    "payPrompt": "請點擊下方按鈕完成模擬付款：",
+    "payLinePay": "🟢 LINE Pay 模擬支付 (NT$ {amount})",
+    "payCreditCard": "💳 信用卡 模擬支付 (NT$ {amount})",
+    "cashNotice": "請至櫃檯出示單號結帳，店員收款後將立即製作！"
+  },
+  "status": {
+    "completedTitle": "餐點製作完成！",
+    "cookingTitle": "大廚精心烹調中...",
+    "cancelledTitle": "訂單已取消",
+    "paidTitle": "已確認收款，準備製作",
+    "pendingPaymentTitle": "訂單已送出，等待付款",
+    "completedDesc": "餐點已準備好，請至取餐櫃檯領取或等候送餐！",
+    "cookingDesc": "廚房已接單並全力準備您的美味餐點，請稍候片刻。",
+    "unpaidOnlineDesc": "請點擊下方按鈕完成線上付款，付款成功後將立即製作。",
+    "unpaidCashDesc": "請至櫃檯現場結帳，店員確認收款後將立即製作。",
+    "defaultDesc": "感謝您的訂購，我們正為您處理中。"
+  }
+}
+

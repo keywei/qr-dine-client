@@ -21,7 +21,7 @@
       class="!font-bold !px-5 !h-9.5"
       @click="$emit('checkout')"
     >
-      去結帳
+      {{ $t('cart.checkout') }}
     </van-button>
   </div>
 </template>
@@ -37,4 +37,3 @@ defineEmits<{
   (e: 'checkout'): void;
 }>();
 </script>
-

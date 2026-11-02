@@ -14,8 +14,8 @@
         <div v-for="grp in dish.options" :key="grp.id">
           <div class="text-sm font-bold text-slate-800 mb-2">
             {{ grp.title }}
-            <span v-if="grp.isRequired" class="text-rose-500 text-xs ml-1">*必選</span>
-            <span class="text-slate-400 text-xs font-normal ml-1">({{ grp.type === 'SINGLE' ? '單選' : '可複選' }})</span>
+            <span v-if="grp.isRequired" class="text-rose-500 text-xs ml-1">{{ $t('specs.required') }}</span>
+            <span class="text-slate-400 text-xs font-normal ml-1">({{ grp.type === 'SINGLE' ? $t('specs.single') : $t('specs.multiple') }})</span>
           </div>
           <div class="flex flex-wrap gap-2">
             <div
@@ -34,7 +34,7 @@
 
       <div class="pt-3 border-t border-slate-100">
         <div class="flex justify-between items-center mb-3 text-sm font-semibold">
-          <span>購買數量</span>
+          <span>{{ $t('specs.quantity') }}</span>
           <van-stepper :model-value="quantity" min="1" max="99" theme="round" button-size="24" @update:model-value="$emit('update:quantity', $event)" />
         </div>
         <van-button
@@ -45,7 +45,7 @@
           color="linear-gradient(to right, #0284c7, #0369a1)"
           @click="$emit('confirm')"
         >
-          加入購物車 (NT$ {{ unitPrice * quantity }})
+          {{ $t('specs.addToCartWithPrice', { price: unitPrice * quantity }) }}
         </van-button>
       </div>
     </div>

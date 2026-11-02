@@ -6,7 +6,7 @@
         v-if="!dish.isAvailable"
         class="absolute inset-0 bg-black/55 text-white text-xs font-bold flex items-center justify-center"
       >
-        已估清
+        {{ $t('dish.soldOut') }}
       </div>
     </div>
 
@@ -14,7 +14,7 @@
       <div>
         <h4 class="m-0 text-sm font-bold text-slate-800">{{ dish.name }}</h4>
         <p class="mt-1 mb-0 text-xs text-slate-500 line-clamp-2">
-          {{ dish.description || '特選食材精心製作' }}
+          {{ dish.description || $t('dish.defaultDescription') }}
         </p>
       </div>
 
@@ -31,7 +31,7 @@
               class="!h-6 !px-2.5"
               @click="$emit('select-specs', dish)"
             >
-              選規格
+              {{ $t('dish.chooseSpecs') }}
             </van-button>
             <van-button
               v-else
@@ -43,7 +43,7 @@
               @click="$emit('add-to-cart', dish)"
             />
           </template>
-          <span v-else class="text-xs text-slate-400">暫停供應</span>
+          <span v-else class="text-xs text-slate-400">{{ $t('dish.unavailable') }}</span>
         </div>
       </div>
     </div>

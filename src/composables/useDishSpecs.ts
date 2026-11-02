@@ -1,7 +1,9 @@
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { MenuItem, MenuItemOptionGroup, MenuItemOption } from '@/types';
 
 export const useDishSpecs = () => {
+  const { t } = useI18n();
   const currentDish = ref<MenuItem | null>(null);
   const selectedQuantity = ref(1);
   const selectedOptionsMap = ref<Record<number, MenuItemOption[]>>({});
@@ -55,7 +57,7 @@ export const useDishSpecs = () => {
     for (const grp of currentDish.value?.options || []) {
       if (grp.isRequired) {
         const selected = selectedOptionsMap.value[grp.id] || [];
-        if (selected.length === 0) return `請選擇 ${grp.title}`;
+        if (selected.length === 0) return t('specs.selectRequired', { title: grp.title });
       }
     }
     return null;
