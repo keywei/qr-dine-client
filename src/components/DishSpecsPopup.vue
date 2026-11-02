@@ -2,7 +2,7 @@
   <van-popup :show="visible" position="bottom" round class="max-h-[80%] rounded-t-2xl" @update:show="$emit('update:visible', $event)">
     <div v-if="dish" class="p-4 flex flex-col max-h-[75vh]">
       <div class="flex items-center gap-3 pb-3 border-b border-slate-100 relative">
-        <img :src="dish.imageUrl || defaultImg" class="w-16 h-16 rounded-lg object-cover" />
+        <DishImage :src="dish.imageUrl" :alt="dish.name" class="w-16 h-16 rounded-lg" />
         <div>
           <h3 class="m-0 text-base font-bold">{{ dish.name }}</h3>
           <div class="text-lg font-extrabold text-rose-600 mt-1">NT$ {{ unitPrice }}</div>
@@ -54,6 +54,7 @@
 
 <script setup lang="ts">
 import type { MenuItem, MenuItemOptionGroup, MenuItemOption } from '@/types';
+import DishImage from '@/components/DishImage.vue';
 
 defineProps<{
   visible: boolean;
@@ -69,7 +70,4 @@ defineEmits<{
   (e: 'update:quantity', val: number): void;
   (e: 'confirm'): void;
 }>();
-
-const defaultImg =
-  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&auto=format&fit=crop&q=60';
 </script>

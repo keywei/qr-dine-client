@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white rounded-xl p-3 flex gap-3 shadow-sm">
     <div class="w-20 h-20 relative rounded-lg overflow-hidden shrink-0">
-      <img :src="dish.imageUrl || defaultImg" class="w-full h-full object-cover" />
+      <DishImage :src="dish.imageUrl" :alt="dish.name" class="w-full h-full" />
       <div
         v-if="!dish.isAvailable"
         class="absolute inset-0 bg-black/55 text-white text-xs font-bold flex items-center justify-center"
@@ -52,6 +52,7 @@
 
 <script setup lang="ts">
 import type { MenuItem } from '@/types';
+import DishImage from '@/components/DishImage.vue';
 
 defineProps<{
   dish: MenuItem;
@@ -61,7 +62,4 @@ defineEmits<{
   (e: 'select-specs', dish: MenuItem): void;
   (e: 'add-to-cart', dish: MenuItem): void;
 }>();
-
-const defaultImg =
-  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&auto=format&fit=crop&q=60';
 </script>

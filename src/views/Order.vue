@@ -27,7 +27,7 @@
           :key="c.id"
           :name="c.id"
           :title="c.name"
-          :badge="getCatBadge(c.id)"
+          :badge="cartStore.categoryCounts[c.id] || undefined"
         />
       </van-tabs>
     </div>
@@ -117,8 +117,6 @@ const specsVisible = ref(false);
 const drawerVisible = ref(false);
 const scrollRef = ref<HTMLElement | null>(null);
 
-const getCatBadge = (id: number) => cartStore.categoryCounts[id] || undefined;
-
 const onCatChange = () => {
   if (scrollRef.value) scrollRef.value.scrollTop = 0;
 };
@@ -152,7 +150,6 @@ const onClearCart = () =>
     },
   );
 const onCheckout = () => {
-  if (cartStore.totalCount === 0) return showToast(t('cart.emptyCartTip'));
   drawerVisible.value = false;
   router.push('/checkout');
 };

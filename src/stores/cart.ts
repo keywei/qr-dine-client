@@ -57,16 +57,11 @@ export const useCartStore = defineStore('cart', () => {
   const updateQuantity = (cartItemId: string, newQty: number) => {
     const index = items.value.findIndex((it) => it.id === cartItemId);
     if (index === -1) return;
-    if (newQty <= 0) {
-      items.value.splice(index, 1);
-    } else {
-      items.value[index].quantity = newQty;
-    }
+    if (newQty <= 0) items.value.splice(index, 1);
+    else items.value[index].quantity = newQty;
   };
 
-  const clearCart = () => {
-    items.value = [];
-  };
+  const clearCart = () => (items.value = []);
 
   return {
     diningType,
