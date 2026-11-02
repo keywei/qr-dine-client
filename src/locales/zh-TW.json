@@ -33,7 +33,10 @@
     "emptyCartTip": "購物車內尚無餐點",
     "totalAmount": "總計金額：",
     "checkout": "去結帳",
-    "proceedToCheckout": "確認前往結帳"
+    "proceedToCheckout": "確認前往結帳",
+    "dishUnavailableTitle": "餐點異動通知",
+    "dishUnavailableNotice": "您選購的餐點「{name}」已下架或售罄，已自動從購物車中移除。",
+    "dishPriceUpdatedNotice": "購物車中的「{name}」價格已更新"
   },
   "dish": {
     "soldOut": "已估清",
@@ -77,11 +80,15 @@
     "backToCheckout": "返回確認訂單",
     "orderSummary": "訂單明細確認",
     "customerInfo": "顧客與發票資訊",
-    "selectPrompt": "請選擇付款方式並完成送單：",
-    "payCash": "現場付款 (至櫃檯結帳)",
-    "cashDesc": "送單後請至櫃檯出示手機單號結帳，店員收款後立即製作",
-    "onlineLinePay": "🟢 LINE Pay 立即付款 (NT$ {amount})",
-    "onlineCreditCard": "💳 信用卡 立即付款 (NT$ {amount})",
+    "selectPrompt": "請選擇付款方式以送出訂單：",
+    "cashTitle": "現場付款",
+    "cashSubtitle": "至櫃檯以現金或實體刷卡結帳",
+    "cashAction": "送出訂單",
+    "linePayTitle": "LINE Pay",
+    "linePaySubtitle": "LINE Pay 快速行動支付",
+    "creditCardTitle": "信用卡線上支付",
+    "creditCardSubtitle": "支援各大銀行信用卡/簽帳金融卡",
+    "amountAction": "NT$ {amount}",
     "orderCreating": "訂單送出中...",
     "subtotal": "應付總額："
   },

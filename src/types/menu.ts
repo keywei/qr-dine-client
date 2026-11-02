@@ -32,3 +32,10 @@ export interface Category {
   items: MenuItem[];
 }
 
+export interface MenuItemUpdatedPayload {
+  id: number;
+  name: string;
+  price: number;
+  isAvailable: boolean;
+  action: 'updated' | 'toggle' | 'deleted';
+}

@@ -50,6 +50,7 @@ import { useDishSpecs } from '@/composables/useDishSpecs';
 import { useMenuCategories } from '@/composables/useMenuCategories';
 import { useStoreInfo } from '@/composables/useStoreInfo';
 import { useOrderInteraction } from '@/composables/useOrderInteraction';
+import { useMenuSync } from '@/composables/useMenuSync';
 import StoreHeader from '@/components/StoreHeader.vue';
 import StoreDetailPopup from '@/components/StoreDetailPopup.vue';
 import DishCard from '@/components/DishCard.vue';
@@ -65,6 +66,7 @@ const dishSpecs = useDishSpecs();
 const { currentDish, selectedQuantity, currentUnitPrice, isOptionSelected, toggleOption } = dishSpecs;
 const { specsVisible, drawerVisible, storeDetailVisible, onOpenSpecs, onDirectAdd, onConfirmSpecs, onClearCart, onCheckout } =
   useOrderInteraction(dishSpecs);
+useMenuSync(fetchMenu);
 
 const scrollRef = ref<HTMLElement | null>(null);
 const onCatChange = () => {
