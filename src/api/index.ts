@@ -8,7 +8,7 @@ const SUCCESS_CODE = [0];
 const BUSINESS_ERROR = 'BUSINESS_ERROR';
 
 const instance = axios.create({
-	baseURL: '/api',
+	baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
 	timeout: 10000
 });
 
