@@ -6,29 +6,28 @@
           <h2 class="m-0 text-base font-extrabold text-slate-900 truncate">
             {{ store?.name || $t('order.title') }}
           </h2>
-          <van-button
-            size="mini"
-            round
-            plain
-            type="primary"
-            class="!text-xs shrink-0"
-            @click="$emit('open-detail')"
-          >
+          <van-button size="mini" round plain type="primary" class="!text-xs shrink-0" @click="$emit('open-detail')">
             {{ $t('store.viewDetail') }}
           </van-button>
         </div>
-        <p class="m-0 mt-0.5 text-xs text-slate-400 truncate">
-          {{ store?.address || '' }}
-        </p>
+        <p class="m-0 mt-0.5 text-xs text-slate-400 truncate">{{ store?.address || '' }}</p>
       </div>
-      <DiningBadge :dining-type="diningType" :table-code="tableCode" />
+      <div class="flex items-center gap-1.5 shrink-0">
+        <van-button size="mini" round type="warning" class="!text-xs shrink-0 !font-bold" @click="router.push('/queue')">
+          {{ $t('queue.shortcut') }}
+        </van-button>
+        <DiningBadge :dining-type="diningType" :table-code="tableCode" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
 import type { DiningType, StoreSetting } from '@/types';
 import DiningBadge from '@/components/DiningBadge.vue';
+
+const router = useRouter();
 
 defineProps<{
   store: StoreSetting | null;

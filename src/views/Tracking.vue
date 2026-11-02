@@ -1,10 +1,6 @@
 <template>
   <div class="min-h-screen bg-slate-50 flex flex-col">
-    <van-nav-bar
-      :title="order ? getStatusTitle(order.status, order.paymentStatus) : $t('tracking.title')"
-      :right-text="$t('tracking.backToOrder')"
-      @click-right="router.push('/order')"
-    />
+    <van-nav-bar :title="order ? getStatusTitle(order.status, order.paymentStatus) : $t('tracking.title')" :right-text="$t('tracking.backToOrder')" @click-right="router.push('/order')" />
     <div v-if="loading && !order" class="flex-1 flex items-center justify-center py-20">
       <van-loading type="spinner" color="#0284c7" vertical>{{ $t('tracking.loading') }}</van-loading>
     </div>

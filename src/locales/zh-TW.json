@@ -127,5 +127,31 @@
     "unpaidCashDesc": "請至櫃檯現場結帳，店員確認收款後將立即製作。",
     "cookingNotice": "已確認收款，餐點全力製作中！請留意出餐叫號。",
     "defaultDesc": "感謝您的訂購，我們正為您處理中。"
+  },
+  "queue": {
+    "title": "內用排隊取號",
+    "shortcut": "內用排隊",
+    "formTitle": "線上領取內用號碼牌",
+    "phoneLabel": "手機號碼",
+    "phonePlaceholder": "請輸入 09 開頭 10 碼手機號碼",
+    "partySizeLabel": "用餐人數",
+    "submitBtn": "領取號碼牌",
+    "yourTicket": "您的號碼牌",
+    "ticketNoPrefix": "#",
+    "currentCalling": "目前叫號",
+    "waitingAhead": "前方等待",
+    "groupsUnit": "組",
+    "partySizeText": "{size} 位內用",
+    "noticeNormal": "請留意現場叫號與通知",
+    "noticeCalling": "📢 目前已經唱號第 {count} 次！請盡速至櫃檯報到（唱號達 3 次未到將自動取消）",
+    "noticeExpired": "⚠️ 已叫號達 3 次未報到，系統已自動取消",
+    "noticeSeated": "🎉 已安排入座，祝您用餐愉快！",
+    "cancelBtn": "放棄排隊",
+    "cancelConfirmTitle": "放棄排隊確認",
+    "cancelConfirmMsg": "確定要放棄排隊嗎？放棄後此號碼將立即失效無法恢復",
+    "cancelSuccess": "已成功放棄排隊",
+    "ticketCreated": "領取號碼牌成功！您的號碼為 #{no}",
+    "calledAlert": "📢 叫號通知：您的號碼牌 #{no} 請盡速至櫃檯報到！",
+    "backToOrder": "返回點餐"
   }
 }

@@ -3,6 +3,7 @@ import Order from '@/views/Order.vue';
 import Checkout from '@/views/Checkout.vue';
 import Payment from '@/views/Payment.vue';
 import Tracking from '@/views/Tracking.vue';
+import Queue from '@/views/Queue.vue';
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/', redirect: '/order' },
@@ -10,6 +11,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/checkout', name: 'Checkout', component: Checkout },
   { path: '/payment', name: 'Payment', component: Payment },
   { path: '/tracking/:orderNo', name: 'Tracking', component: Tracking },
+  { path: '/queue', name: 'Queue', component: Queue },
 ];
 
 const router = createRouter({
