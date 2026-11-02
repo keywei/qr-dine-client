@@ -32,7 +32,26 @@ export interface Order {
   totalAmount: number;
   customerNote?: string | null;
   customerPhone?: string | null;
+  taxId?: string | null;
+  invoiceCarrier?: string | null;
   items: OrderItem[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface CreateOrderPayload {
+  diningType: DiningType;
+  tableCode?: string;
+  customerPhone?: string;
+  customerNote?: string;
+  taxId?: string;
+  invoiceCarrier?: string;
+  paymentMethod: PaymentMethod;
+  items: {
+    menuItemId?: number | null;
+    name: string;
+    price: number;
+    quantity: number;
+    optionsText?: string | null;
+  }[];
 }

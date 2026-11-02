@@ -13,3 +13,9 @@ export interface CartItem {
   options?: string[];
 }
 
+export interface CheckoutInfo {
+  customerPhone?: string;
+  customerNote?: string;
+  taxId?: string;
+  invoiceCarrier?: string;
+}

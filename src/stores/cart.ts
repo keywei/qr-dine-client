@@ -1,42 +1,36 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import type { CartItem, DiningType, MenuItem } from '@/types';
+import type { CartItem, CheckoutInfo, DiningType, MenuItem } from '@/types';
 
 export const useCartStore = defineStore('cart', () => {
-  const diningType = ref<DiningType>(
-    (localStorage.getItem('dining_type') || 'DINE_IN') as DiningType,
-  );
+  const diningType = ref<DiningType>((localStorage.getItem('dining_type') || 'DINE_IN') as DiningType);
   const tableCode = ref(localStorage.getItem('table_code') || '');
   const items = ref<CartItem[]>([]);
+  const checkoutInfo = ref<CheckoutInfo>({});
 
   const totalCount = computed(() => items.value.reduce((acc, item) => acc + item.quantity, 0));
-  const totalAmount = computed(() =>
-    items.value.reduce((acc, item) => acc + item.price * item.quantity, 0),
-  );
+  const totalAmount = computed(() => items.value.reduce((acc, item) => acc + item.price * item.quantity, 0));
   const categoryCounts = computed(() => {
     const map: Record<number, number> = {};
-    for (const item of items.value) {
-      map[item.categoryId] = (map[item.categoryId] || 0) + item.quantity;
-    }
+    for (const item of items.value) map[item.categoryId] = (map[item.categoryId] || 0) + item.quantity;
     return map;
   });
 
   const setDiningInfo = (type: DiningType, code?: string) => {
     diningType.value = type;
     localStorage.setItem('dining_type', type);
-    tableCode.value = code || '';
-    code ? localStorage.setItem('table_code', code) : localStorage.removeItem('table_code');
+    const validCode = type === 'TAKEOUT' ? '' : (code || '');
+    tableCode.value = validCode;
+    validCode ? localStorage.setItem('table_code', validCode) : localStorage.removeItem('table_code');
   };
 
-  const addItem = (
-    dish: MenuItem,
-    quantity: number,
-    selectedOptionsText: string,
-    unitPrice: number,
-  ) => {
+  const setCheckoutInfo = (info: CheckoutInfo) => {
+    checkoutInfo.value = { ...info };
+  };
+
+  const addItem = (dish: MenuItem, quantity: number, selectedOptionsText: string, unitPrice: number) => {
     const itemKey = `${dish.id}_${selectedOptionsText || 'default'}`;
     const existing = items.value.find((it) => it.id === itemKey);
-
     if (existing) {
       existing.quantity += quantity;
     } else {
@@ -61,16 +55,21 @@ export const useCartStore = defineStore('cart', () => {
     else items.value[index].quantity = newQty;
   };
 
-  const clearCart = () => (items.value = []);
+  const clearCart = () => {
+    items.value = [];
+    checkoutInfo.value = {};
+  };
 
   return {
     diningType,
     tableCode,
     items,
+    checkoutInfo,
     totalCount,
     totalAmount,
     categoryCounts,
     setDiningInfo,
+    setCheckoutInfo,
     addItem,
     updateQuantity,
     clearCart,
