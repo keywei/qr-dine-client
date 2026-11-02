@@ -8,11 +8,7 @@
           <p class="m-0 mt-0.5 text-xs text-slate-500 leading-normal">{{ getStatusDesc(order.status, order.paymentStatus, order.paymentMethod) }}</p>
         </div>
       </div>
-      <DiningBadge
-        :dining-type="order.diningType"
-        :table-code="order.table?.code || order.tableCode"
-        class="shrink-0 mt-0.5"
-      />
+      <DiningBadge :dining-type="order.diningType" :table-code="order.table?.code || order.tableCode" class="shrink-0 mt-0.5" />
     </div>
 
     <van-steps :active="getStepIndex(order.status, order.paymentStatus)" active-color="#0284c7" class="py-2">
@@ -31,8 +27,8 @@
         {{ $t('tracking.payCreditCard', { amount: order.totalAmount }) }}
       </van-button>
     </div>
-
     <van-notice-bar v-else-if="order.paymentStatus === 'UNPAID' && order.paymentMethod === 'CASH'" class="mt-3 rounded-lg" left-icon="info-o" :text="$t('tracking.cashNotice')" wrapable :scrollable="false" />
+    <van-notice-bar v-else-if="order.status === 'COOKING'" class="mt-3 rounded-lg" left-icon="fire-o" color="#0284c7" background="#f0f9ff" :text="$t('status.cookingNotice')" wrapable :scrollable="false" />
   </div>
 </template>
 

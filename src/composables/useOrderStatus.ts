@@ -1,7 +1,6 @@
 import { useI18n } from 'vue-i18n';
 
-export const useOrderStatus = () => {
-  const { t } = useI18n();
+export const createOrderStatusResolver = (t: (k: string) => string) => {
   const getStatusEmoji = (status: string): string => {
     switch (status) {
       case 'PENDING_PAYMENT': return '⏳';
@@ -24,9 +23,7 @@ export const useOrderStatus = () => {
     if (status === 'COMPLETED') return t('status.completedDesc');
     if (status === 'COOKING') return t('status.cookingDesc');
     if (paymentStatus === 'UNPAID') {
-      return paymentMethod === 'ONLINE'
-        ? t('status.unpaidOnlineDesc')
-        : t('status.unpaidCashDesc');
+      return paymentMethod === 'ONLINE' ? t('status.unpaidOnlineDesc') : t('status.unpaidCashDesc');
     }
     return t('status.defaultDesc');
   };
@@ -39,4 +36,9 @@ export const useOrderStatus = () => {
   };
 
   return { getStatusEmoji, getStatusTitle, getStatusDesc, getStepIndex };
+};
+
+export const useOrderStatus = () => {
+  const { t } = useI18n();
+  return createOrderStatusResolver(t);
 };

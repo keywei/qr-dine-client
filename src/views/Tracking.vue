@@ -1,6 +1,10 @@
 <template>
   <div class="min-h-screen bg-slate-50 flex flex-col">
-    <van-nav-bar :title="$t('tracking.title')" :right-text="$t('tracking.backToOrder')" @click-right="router.push('/order')" />
+    <van-nav-bar
+      :title="order ? getStatusTitle(order.status, order.paymentStatus) : $t('tracking.title')"
+      :right-text="$t('tracking.backToOrder')"
+      @click-right="router.push('/order')"
+    />
     <div v-if="loading && !order" class="flex-1 flex items-center justify-center py-20">
       <van-loading type="spinner" color="#0284c7" vertical>{{ $t('tracking.loading') }}</van-loading>
     </div>
@@ -33,6 +37,7 @@ import { useI18n } from 'vue-i18n';
 import api from '@/api';
 import { getClientSocket, joinOrderRoom, leaveOrderRoom } from '@/socket';
 import { useOrderStatus } from '@/composables/useOrderStatus';
+import { usePolling } from '@/composables/usePolling';
 import TrackingStatusCard from '@/components/TrackingStatusCard.vue';
 import OrderItemRow from '@/components/OrderItemRow.vue';
 import type { Order } from '@/types';
@@ -47,13 +52,15 @@ const paying = ref(false);
 const orderNo = computed(() => String(route.params.orderNo));
 
 const fetchOrder = async () => {
-  loading.value = true;
+  if (!order.value) loading.value = true;
   try {
     order.value = await api.get<Order>(`/orders/track/${orderNo.value}`);
   } finally {
     loading.value = false;
   }
 };
+usePolling(fetchOrder, 3000);
+
 const onPay = async (channel: string) => {
   paying.value = true;
   try {
@@ -63,18 +70,26 @@ const onPay = async (channel: string) => {
     paying.value = false;
   }
 };
+
+const handleOrderUpdate = (updated: Order) => {
+  if (updated.orderNo === orderNo.value) {
+    order.value = updated;
+    showNotify({ type: 'success', message: t('tracking.statusUpdated', { status: getStatusTitle(updated.status, updated.paymentStatus) }) });
+  }
+};
+
 onMounted(() => {
   fetchOrder();
   joinOrderRoom(orderNo.value);
-  getClientSocket().on('order:updated', (updated: Order) => {
-    if (updated.orderNo === orderNo.value) {
-      order.value = updated;
-      showNotify({ type: 'success', message: t('tracking.statusUpdated', { status: getStatusTitle(updated.status, updated.paymentStatus) }) });
-    }
-  });
+  const s = getClientSocket();
+  s.on('order:updated', handleOrderUpdate);
+  s.on('order:status_changed', handleOrderUpdate);
 });
+
 onUnmounted(() => {
   leaveOrderRoom(orderNo.value);
-  getClientSocket().off('order:updated');
+  const s = getClientSocket();
+  s.off('order:updated', handleOrderUpdate);
+  s.off('order:status_changed', handleOrderUpdate);
 });
 </script>
