@@ -14,6 +14,7 @@
         :current-calling-no="currentCallingNo"
         :waiting-count="waitingCount"
         @cancel="cancelTicket"
+        @clear="clearTicket"
       />
       <QueueFormCard
         v-else
@@ -31,5 +32,5 @@ import QueueFormCard from '@/components/QueueFormCard.vue';
 import QueueBoardCard from '@/components/QueueBoardCard.vue';
 
 const router = useRouter();
-const { ticket, currentCallingNo, waitingCount, submitting, takeTicket, cancelTicket } = useQueue();
+const { ticket, currentCallingNo, waitingCount, submitting, takeTicket, cancelTicket, clearTicket } = useQueue();
 </script>

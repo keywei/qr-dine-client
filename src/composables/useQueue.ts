@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 import api from '@/api';
 import { getClientSocket } from '@/socket';
 import { usePolling } from '@/composables/usePolling';
-import type { QueueTicket, QueueStatusResponse } from '@/types';
+import type { QueueTicket, QueueTicketDetail, QueueStatusResponse } from '@/types';
 
 const STORAGE_KEY = 'queue_ticket';
 const getStoredTicket = (): QueueTicket | null => {
@@ -27,13 +27,18 @@ export const useQueue = () => {
     tkt ? localStorage.setItem(STORAGE_KEY, JSON.stringify(tkt)) : localStorage.removeItem(STORAGE_KEY);
   };
 
+  const clearTicket = () => saveTicket(null);
+
   const fetchStatus = async () => {
     try {
-      const url = ticket.value ? `/queue/${ticket.value.id}` : '/queue/status';
-      const res = await api.get<QueueStatusResponse>(url);
-      if (res?.ticket) saveTicket(res.ticket);
-      currentCallingNo.value = res?.currentCallingNo ?? null;
-      waitingCount.value = res?.waitingCount ?? 0;
+      const url = ticket.value?.id ? `/queue/${ticket.value.id}` : '/queue/status';
+      const res = await api.get<QueueTicketDetail | QueueStatusResponse>(url);
+      if (res && typeof res === 'object') {
+        if ('ticketNo' in res && 'id' in res) saveTicket(res as QueueTicket);
+        else if ('ticket' in res && res.ticket) saveTicket(res.ticket);
+        currentCallingNo.value = res.currentCallingNo ?? null;
+        waitingCount.value = res.waitingCount ?? 0;
+      }
     } catch {
       // 容錯
     }
@@ -52,14 +57,11 @@ export const useQueue = () => {
   };
 
   const cancelTicket = () => {
-    if (!ticket.value) return;
-    showConfirmDialog({
-      title: t('queue.cancelConfirmTitle'),
-      message: t('queue.cancelConfirmMsg'),
-    }).then(async () => {
-      if (!ticket.value) return;
+    if (!ticket.value?.id) return;
+    showConfirmDialog({ title: t('queue.cancelConfirmTitle'), message: t('queue.cancelConfirmMsg') }).then(async () => {
+      if (!ticket.value?.id) return;
       await api.post(`/queue/${ticket.value.id}/cancel`);
-      saveTicket(null);
+      clearTicket();
       showToast({ message: t('queue.cancelSuccess'), icon: 'success' });
     });
   };
@@ -87,5 +89,5 @@ export const useQueue = () => {
     s.off('queue:called', onQueueCalled);
   });
 
-  return { ticket, currentCallingNo, waitingCount, loading, submitting, takeTicket, cancelTicket, fetchStatus };
+  return { ticket, currentCallingNo, waitingCount, loading, submitting, takeTicket, cancelTicket, clearTicket, fetchStatus };
 };

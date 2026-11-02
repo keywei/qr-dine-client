@@ -60,6 +60,19 @@
     />
 
     <van-button
+      v-if="ticket.status === 'EXPIRED' || ticket.status === 'CANCELLED' || ticket.status === 'SEATED'"
+      type="primary"
+      round
+      block
+      size="normal"
+      color="#0284c7"
+      class="!font-bold shadow-sm mt-1"
+      @click="$emit('clear')"
+    >
+      {{ $t('queue.reTakeBtn') }}
+    </van-button>
+    <van-button
+      v-else
       type="default"
       round
       block
@@ -83,5 +96,6 @@ defineProps<{
 
 defineEmits<{
   (e: 'cancel'): void;
+  (e: 'clear'): void;
 }>();
 </script>

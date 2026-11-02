@@ -13,6 +13,11 @@ export interface QueueTicket {
   updatedAt: string;
 }
 
+export interface QueueTicketDetail extends QueueTicket {
+  currentCallingNo?: number | null;
+  waitingCount?: number;
+}
+
 export interface QueueStatusResponse {
   ticket?: QueueTicket | null;
   currentCallingNo?: number | null;

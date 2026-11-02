@@ -147,6 +147,7 @@
     "noticeExpired": "⚠️ 已叫號達 3 次未報到，系統已自動取消",
     "noticeSeated": "🎉 已安排入座，祝您用餐愉快！",
     "cancelBtn": "放棄排隊",
+    "reTakeBtn": "重新取號",
     "cancelConfirmTitle": "放棄排隊確認",
     "cancelConfirmMsg": "確定要放棄排隊嗎？放棄後此號碼將立即失效無法恢復",
     "cancelSuccess": "已成功放棄排隊",
