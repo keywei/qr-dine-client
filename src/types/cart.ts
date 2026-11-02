@@ -2,6 +2,7 @@ export type DiningType = 'DINE_IN' | 'TAKEOUT';
 
 export interface CartItem {
   id: string; // unique item key
+  categoryId: number;
   menuItemId: number;
   name: string;
   basePrice: number;
