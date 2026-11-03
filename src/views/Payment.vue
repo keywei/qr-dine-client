@@ -15,7 +15,7 @@
         <OrderItemRow v-for="item in cartStore.items" :key="item.id" :item="item" />
         <div class="flex justify-between items-center pt-3 mt-1 border-t border-slate-100">
           <span class="text-sm font-semibold text-slate-600">{{ $t('payment.subtotal') }}</span>
-          <span class="text-base font-extrabold text-rose-600">NT$ {{ cartStore.totalAmount }}</span>
+          <span class="text-base font-extrabold text-emerald-600">NT$ {{ cartStore.totalAmount }}</span>
         </div>
       </div>
 

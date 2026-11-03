@@ -11,9 +11,16 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#0284c7',
-          dark: '#0369a1',
-          light: '#e0f2fe',
+          DEFAULT: '#16a34a',
+          dark: '#15803d',
+          light: '#f0fdf4',
+        },
+        brand: {
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          500: '#22c55e',
+          600: '#16a34a',
+          700: '#15803d',
         },
       },
     },

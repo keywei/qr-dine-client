@@ -1,6 +1,6 @@
 <template>
   <van-tag
-    :type="diningType === 'DINE_IN' ? 'danger' : 'warning'"
+    :type="diningType === 'DINE_IN' ? 'success' : 'warning'"
     :size="size"
     round
     class="whitespace-nowrap shrink-0 !inline-flex items-center"

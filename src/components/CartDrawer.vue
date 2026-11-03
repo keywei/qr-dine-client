@@ -10,7 +10,7 @@
         <div class="flex flex-col">
           <span class="text-sm font-bold text-slate-800">{{ item.name }}</span>
           <span v-if="item.optionsText" class="text-xs text-slate-500 mt-0.5">{{ item.optionsText }}</span>
-          <span class="text-xs font-bold text-rose-600 mt-0.5">NT$ {{ item.price }}</span>
+          <span class="text-xs font-bold text-emerald-600 mt-0.5">NT$ {{ item.price }}</span>
         </div>
         <van-stepper
           :model-value="item.quantity"
@@ -25,14 +25,14 @@
     <div class="pt-3.5 border-t border-slate-100">
       <div class="flex justify-between items-baseline mb-3">
         <span class="text-sm text-slate-600">{{ $t('cart.totalAmount') }}</span>
-        <span class="text-xl font-extrabold text-rose-600">NT$ {{ totalAmount }}</span>
+        <span class="text-xl font-extrabold text-emerald-600">NT$ {{ totalAmount }}</span>
       </div>
       <van-button
         type="primary"
         block
         round
         size="large"
-        color="linear-gradient(to right, #0284c7, #0369a1)"
+        color="linear-gradient(to right, #22c55e, #16a34a)"
         @click="$emit('checkout')"
       >
         {{ $t('cart.proceedToCheckout') }}

@@ -24,7 +24,7 @@
       round
       block
       size="large"
-      color="#0284c7"
+      color="#16a34a"
       :loading="loading"
       class="!font-bold !h-11 shadow-md"
       @click="onSubmit"

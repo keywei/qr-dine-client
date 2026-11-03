@@ -7,7 +7,7 @@
 
     <div class="flex flex-col items-center justify-center py-3 bg-slate-50 rounded-xl">
       <span class="text-xs text-slate-500 font-medium">{{ $t('queue.yourTicket') }}</span>
-      <span class="text-4xl font-extrabold text-sky-600 font-mono tracking-tight my-1">
+      <span class="text-4xl font-extrabold text-emerald-600 font-mono tracking-tight my-1">
         #{{ ticket.ticketNo }}
       </span>
       <span class="text-xs text-slate-400 font-mono">{{ ticket.customerPhone }}</span>
@@ -22,7 +22,7 @@
       </div>
       <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
         <div class="text-xs text-slate-500 mb-1">{{ $t('queue.waitingAhead') }}</div>
-        <div class="text-xl font-extrabold text-rose-600 font-mono">
+        <div class="text-xl font-extrabold text-amber-600 font-mono">
           {{ waitingCount }} <span class="text-xs text-slate-500 font-normal">{{ $t('queue.groupsUnit') }}</span>
         </div>
       </div>
@@ -52,8 +52,8 @@
       v-else
       class="rounded-xl shadow-xs"
       left-icon="volume-o"
-      color="#0369a1"
-      background="#f0f9ff"
+      color="#15803d"
+      background="#f0fdf4"
       wrapable
       :scrollable="false"
       :text="$t('queue.noticeNormal')"
@@ -65,7 +65,7 @@
       round
       block
       size="normal"
-      color="#0284c7"
+      color="#16a34a"
       class="!font-bold shadow-sm mt-1"
       @click="$emit('clear')"
     >

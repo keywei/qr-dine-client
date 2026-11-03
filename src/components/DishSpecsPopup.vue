@@ -5,7 +5,7 @@
         <DishImage :src="dish.imageUrl" :alt="dish.name" class="w-16 h-16 rounded-lg" />
         <div>
           <h3 class="m-0 text-base font-bold">{{ dish.name }}</h3>
-          <div class="text-lg font-extrabold text-rose-600 mt-1">NT$ {{ unitPrice }}</div>
+          <div class="text-lg font-extrabold text-emerald-600 mt-1">NT$ {{ unitPrice }}</div>
         </div>
         <van-icon name="cross" class="absolute top-0 right-0 text-xl text-slate-400 cursor-pointer" @click="$emit('update:visible', false)" />
       </div>
@@ -22,11 +22,11 @@
               v-for="opt in grp.options"
               :key="opt.id"
               class="px-3.5 py-1.5 rounded-full text-xs cursor-pointer border flex items-center gap-1 transition-colors"
-              :class="isOptionSelected(grp.id, opt.name) ? 'bg-sky-50 border-sky-600 text-sky-700 font-bold' : 'bg-slate-100 border-slate-200 text-slate-700'"
+              :class="isOptionSelected(grp.id, opt.name) ? 'bg-emerald-50 border-emerald-600 text-emerald-700 font-bold' : 'bg-slate-100 border-slate-200 text-slate-700'"
               @click="toggleOption(grp, opt)"
             >
               <span>{{ opt.name }}</span>
-              <span v-if="opt.extraPrice > 0" class="text-rose-600 text-[11px]">+NT${{ opt.extraPrice }}</span>
+              <span v-if="opt.extraPrice > 0" class="text-emerald-600 text-[11px]">+NT${{ opt.extraPrice }}</span>
             </div>
           </div>
         </div>
@@ -42,7 +42,7 @@
           block
           round
           size="large"
-          color="linear-gradient(to right, #0284c7, #0369a1)"
+          color="linear-gradient(to right, #22c55e, #16a34a)"
           @click="$emit('confirm')"
         >
           {{ $t('specs.addToCartWithPrice', { price: unitPrice * quantity }) }}
