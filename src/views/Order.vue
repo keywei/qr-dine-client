@@ -10,7 +10,7 @@
     <van-tabs
       v-model:active="selectedCatId"
       shrink
-      color="#16a34a"
+      color="#607234"
       line-width="20px"
       line-height="3px"
       @change="onCatChange"
@@ -36,7 +36,7 @@
         class="py-10"
       />
       <div v-for="cat in filteredCats" :key="cat.id" class="mb-5">
-        <div class="text-[15px] font-bold text-slate-700 mb-2.5 pl-2 border-l-[3px] border-emerald-500">
+        <div class="text-[15px] font-bold text-slate-700 mb-2.5 pl-2 border-l-[3px] border-[#607234]">
           {{ cat.name }}
         </div>
         <div class="flex flex-col gap-3">

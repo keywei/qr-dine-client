@@ -24,9 +24,9 @@
       round
       block
       size="large"
-      color="#16a34a"
+      color="linear-gradient(135deg, #cee034 0%, #b8cb28 100%)"
       :loading="loading"
-      class="!font-bold !h-11 shadow-md"
+      class="!font-bold !text-[#1a2010] !h-11 shadow-md"
       @click="onSubmit"
     >
       {{ $t('queue.submitBtn') }}

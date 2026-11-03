@@ -6,7 +6,7 @@
     <div class="flex items-center gap-3 cursor-pointer" @click="$emit('open-drawer')">
       <div class="relative">
         <van-icon name="shopping-cart" size="24" color="#fff" />
-        <div class="absolute -top-2 -right-2 bg-emerald-500 text-white text-[11px] font-extrabold px-1.5 py-0.5 rounded-full">
+        <div class="absolute -top-2 -right-2 bg-[#d95338] text-white text-[11px] font-extrabold px-1.5 py-0.5 rounded-full">
           {{ totalCount }}
         </div>
       </div>

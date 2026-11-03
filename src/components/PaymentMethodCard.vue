@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="flex items-center gap-1.5 shrink-0 ml-2">
-      <span class="text-sm font-extrabold text-emerald-600">{{ actionText }}</span>
+      <span class="text-sm font-extrabold text-[#d95338]">{{ actionText }}</span>
       <van-icon name="arrow" class="text-slate-300 text-sm" />
     </div>
   </button>

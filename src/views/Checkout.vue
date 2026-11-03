@@ -14,7 +14,7 @@
         <OrderItemRow v-for="item in cartStore.items" :key="item.id" :item="item" />
         <div class="flex justify-between items-center pt-3 mt-1 border-t border-slate-100">
           <span class="text-sm font-semibold text-slate-600">{{ $t('checkout.subtotal') }}</span>
-          <span class="text-base font-extrabold text-emerald-600">NT$ {{ cartStore.totalAmount }}</span>
+          <span class="text-base font-extrabold text-[#d95338]">NT$ {{ cartStore.totalAmount }}</span>
         </div>
       </div>
       <van-cell-group inset class="!m-0 shadow-sm rounded-xl overflow-hidden">
@@ -37,12 +37,12 @@
     <div class="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-100 px-4 flex justify-between items-center shadow-lg z-40">
       <div>
         <span class="text-xs text-slate-500">{{ $t('checkout.payableAmount') }}</span>
-        <span class="text-xl font-extrabold text-emerald-600">NT$ {{ cartStore.totalAmount }}</span>
+        <span class="text-xl font-extrabold text-[#d95338]">NT$ {{ cartStore.totalAmount }}</span>
       </div>
       <van-button
         type="primary" round size="large" :disabled="isSubmitDisabled"
-        color="linear-gradient(to right, #22c55e, #16a34a)"
-        class="!w-44 !h-10.5 !font-bold transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+        color="linear-gradient(135deg, #cee034 0%, #b8cb28 100%)"
+        class="!w-44 !h-10.5 !font-extrabold !text-[#1a2010] transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
         @click="onProceedPayment"
       >
         {{ $t('checkout.confirmPaymentMethod') }}

@@ -19,7 +19,7 @@
       </div>
 
       <div class="flex items-center justify-between mt-1.5">
-        <span class="text-base font-extrabold text-emerald-600">NT$ {{ dish.price }}</span>
+        <span class="text-base font-extrabold text-[#d95338]">NT$ {{ dish.price }}</span>
 
         <div>
           <template v-if="dish.isAvailable">

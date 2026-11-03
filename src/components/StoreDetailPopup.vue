@@ -23,7 +23,7 @@
         </div>
         <div class="flex justify-between items-start">
           <span class="text-slate-500 shrink-0 mr-4">{{ $t('store.phone') }}</span>
-          <a :href="`tel:${store?.phone}`" class="text-emerald-600 font-medium">{{ store?.phone || '-' }}</a>
+          <a :href="`tel:${store?.phone}`" class="text-[#607234] font-medium">{{ store?.phone || '-' }}</a>
         </div>
         <div class="flex justify-between items-start">
           <span class="text-slate-500 shrink-0 mr-4">{{ $t('store.businessHours') }}</span>
@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <van-button round block type="primary" color="#16a34a" class="mt-2" @click="$emit('update:visible', false)">
+      <van-button round block type="primary" color="linear-gradient(135deg, #cee034 0%, #b8cb28 100%)" class="mt-2 !text-[#1a2010] !font-bold" @click="$emit('update:visible', false)">
         {{ $t('common.close') }}
       </van-button>
     </div>
