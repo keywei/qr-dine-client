@@ -7,7 +7,7 @@
 
     <div class="flex flex-col items-center justify-center py-3 bg-slate-50 rounded-xl">
       <span class="text-xs text-slate-500 font-medium">{{ $t('queue.yourTicket') }}</span>
-      <span class="text-4xl font-extrabold text-[#607234] font-mono tracking-tight my-1">
+      <span class="text-4xl font-black text-[#0f0f11] font-mono tracking-tight my-1">
         #{{ ticket.ticketNo }}
       </span>
       <span class="text-xs text-slate-400 font-mono">{{ ticket.customerPhone }}</span>
@@ -16,13 +16,13 @@
     <div class="grid grid-cols-2 gap-3 text-center">
       <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
         <div class="text-xs text-slate-500 mb-1">{{ $t('queue.currentCalling') }}</div>
-        <div class="text-xl font-extrabold text-slate-800 font-mono">
+        <div class="text-xl font-black text-slate-800 font-mono">
           {{ currentCallingNo ? `#${currentCallingNo}` : '-' }}
         </div>
       </div>
       <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
         <div class="text-xs text-slate-500 mb-1">{{ $t('queue.waitingAhead') }}</div>
-        <div class="text-xl font-extrabold text-[#d95338] font-mono">
+        <div class="text-xl font-black text-[#ff4d2e] font-mono">
           {{ waitingCount }} <span class="text-xs text-slate-500 font-normal">{{ $t('queue.groupsUnit') }}</span>
         </div>
       </div>
@@ -52,8 +52,8 @@
       v-else
       class="rounded-xl shadow-xs"
       left-icon="volume-o"
-      color="#607234"
-      background="#eff3e4"
+      color="#2563eb"
+      background="#eff4ff"
       wrapable
       :scrollable="false"
       :text="$t('queue.noticeNormal')"
@@ -65,8 +65,8 @@
       round
       block
       size="normal"
-      color="linear-gradient(135deg, #cee034 0%, #b8cb28 100%)"
-      class="!font-bold !text-[#1a2010] shadow-sm mt-1"
+      color="#0f0f11"
+      class="!font-black !text-white shadow-sm mt-1"
       @click="$emit('clear')"
     >
       {{ $t('queue.reTakeBtn') }}

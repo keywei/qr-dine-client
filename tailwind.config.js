@@ -10,26 +10,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        citron: {
-          DEFAULT: '#c5d82d',
-          dark: '#b4c725',
-          light: '#f5f9dd',
-          text: '#1a2010',
+        ink: {
+          DEFAULT: '#0f0f11',
+          hover: '#222226',
         },
-        terracotta: {
-          DEFAULT: '#d95338',
-          dark: '#b83b22',
-          light: '#fbeee9',
+        coral: {
+          DEFAULT: '#ff4d2e',
+          light: '#fff1ee',
         },
-        olive: {
-          DEFAULT: '#607234',
-          dark: '#485626',
-          light: '#eff3e4',
+        cobalt: {
+          DEFAULT: '#2563eb',
+          light: '#eff4ff',
         },
-        warm: {
-          canvas: '#f8f7f2',
-          card: '#ffffff',
-          border: '#e8e6df',
+        softgray: {
+          DEFAULT: '#f1f1f4',
+          canvas: '#f7f7f9',
+          border: '#e8e8ed',
         },
       },
     },

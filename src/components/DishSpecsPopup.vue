@@ -5,7 +5,7 @@
         <DishImage :src="dish.imageUrl" :alt="dish.name" class="w-16 h-16 rounded-lg" />
         <div>
           <h3 class="m-0 text-base font-bold">{{ dish.name }}</h3>
-          <div class="text-lg font-extrabold text-[#d95338] mt-1">NT$ {{ unitPrice }}</div>
+          <div class="text-lg font-black text-[#0f0f11] mt-1">NT$ {{ unitPrice }}</div>
         </div>
         <van-icon name="cross" class="absolute top-0 right-0 text-xl text-slate-400 cursor-pointer" @click="$emit('update:visible', false)" />
       </div>
@@ -14,19 +14,19 @@
         <div v-for="grp in dish.options" :key="grp.id">
           <div class="text-sm font-bold text-slate-800 mb-2">
             {{ grp.title }}
-            <span v-if="grp.isRequired" class="text-[#d95338] text-xs ml-1">{{ $t('specs.required') }}</span>
+            <span v-if="grp.isRequired" class="text-[#ff4d2e] text-xs ml-1 font-bold">{{ $t('specs.required') }}</span>
             <span class="text-slate-400 text-xs font-normal ml-1">({{ grp.type === 'SINGLE' ? $t('specs.single') : $t('specs.multiple') }})</span>
           </div>
           <div class="flex flex-wrap gap-2">
             <div
               v-for="opt in grp.options"
               :key="opt.id"
-              class="px-3.5 py-1.5 rounded-full text-xs cursor-pointer border flex items-center gap-1 transition-colors"
-              :class="isOptionSelected(grp.id, opt.name) ? 'bg-[#eff3e4] border-[#607234] text-[#3d4b1f] font-bold' : 'bg-[#f4f2ec] border-[#e2dfd5] text-[#555248]'"
+              class="px-3.5 py-1.5 rounded-full text-xs cursor-pointer border flex items-center gap-1 transition-all"
+              :class="isOptionSelected(grp.id, opt.name) ? 'bg-[#0f0f11] border-[#0f0f11] text-white font-bold shadow-xs' : 'bg-[#f1f1f4] border-transparent text-slate-700'"
               @click="toggleOption(grp, opt)"
             >
               <span>{{ opt.name }}</span>
-              <span v-if="opt.extraPrice > 0" class="text-[#d95338] text-[11px]">+NT${{ opt.extraPrice }}</span>
+              <span v-if="opt.extraPrice > 0" class="text-[#ff4d2e] text-[11px] font-bold">+NT${{ opt.extraPrice }}</span>
             </div>
           </div>
         </div>
@@ -42,8 +42,8 @@
           block
           round
           size="large"
-          color="linear-gradient(135deg, #cee034 0%, #b8cb28 100%)"
-          class="!text-[#1a2010] !font-extrabold"
+          color="#0f0f11"
+          class="!text-white !font-black shadow-md"
           @click="$emit('confirm')"
         >
           {{ $t('specs.addToCartWithPrice', { price: unitPrice * quantity }) }}

@@ -3,32 +3,32 @@
 @tailwind utilities;
 
 :root {
-  --van-primary-color: #607234;
-  --van-success-color: #607234;
-  --van-warning-color: #d95338;
-  --van-danger-color: #d95338;
-  --van-button-primary-background: linear-gradient(135deg, #cee034 0%, #b8cb28 100%);
-  --van-button-primary-color: #1a2010;
-  --van-button-primary-border-color: #b8cb28;
-  --van-tabs-bottom-bar-color: #607234;
-  --van-tabs-active-color: #1a2010;
-  --van-nav-bar-icon-color: #607234;
-  --van-nav-bar-text-color: #607234;
-  --van-step-finish-line-color: #607234;
-  --van-step-active-color: #607234;
-  --van-tag-primary-color: #607234;
-  --van-tag-success-color: #607234;
-  --van-tag-warning-color: #d95338;
-  --van-badge-background: #d95338;
+  --van-primary-color: #0f0f11;
+  --van-success-color: #2563eb;
+  --van-warning-color: #ff4d2e;
+  --van-danger-color: #ff4d2e;
+  --van-button-primary-background: #0f0f11;
+  --van-button-primary-color: #ffffff;
+  --van-button-primary-border-color: #0f0f11;
+  --van-tabs-bottom-bar-color: #0f0f11;
+  --van-tabs-active-color: #0f0f11;
+  --van-nav-bar-icon-color: #0f0f11;
+  --van-nav-bar-text-color: #0f0f11;
+  --van-step-finish-line-color: #2563eb;
+  --van-step-active-color: #2563eb;
+  --van-tag-primary-color: #0f0f11;
+  --van-tag-success-color: #2563eb;
+  --van-tag-warning-color: #ff4d2e;
+  --van-badge-background: #ff4d2e;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #f8f7f2;
+  background-color: #f7f7f9;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  color: #1a2010;
+  color: #0f0f11;
 }
 
 * {

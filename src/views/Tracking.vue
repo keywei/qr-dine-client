@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-slate-50 flex flex-col">
     <van-nav-bar :title="order ? getStatusTitle(order.status, order.paymentStatus) : $t('tracking.title')" :right-text="$t('tracking.backToOrder')" @click-right="router.push('/order')" />
     <div v-if="loading && !order" class="flex-1 flex items-center justify-center py-20">
-      <van-loading type="spinner" color="#607234" vertical>{{ $t('tracking.loading') }}</van-loading>
+      <van-loading type="spinner" color="#2563eb" vertical>{{ $t('tracking.loading') }}</van-loading>
     </div>
     <div v-else-if="order" class="flex-1 p-3.5 pb-20 flex flex-col gap-3.5 overflow-y-auto">
       <TrackingStatusCard :order="order" :paying="paying" @pay="onPay" />
@@ -17,7 +17,7 @@
         <div v-if="order.customerNote" class="py-1.5 text-xs text-slate-500 border-t border-slate-50 whitespace-pre-wrap break-all"><span class="font-bold">{{ $t('tracking.noteLabel') }}</span>{{ order.customerNote }}</div>
         <div class="flex justify-between items-center pt-3 mt-1 border-t border-slate-100">
           <span class="text-sm font-semibold text-slate-600">{{ $t('tracking.totalAmount') }}</span>
-          <span class="text-lg font-extrabold text-[#d95338]">NT$ {{ order.totalAmount }}</span>
+          <span class="text-lg font-black text-[#0f0f11]">NT$ {{ order.totalAmount }}</span>
         </div>
       </div>
       <van-button type="default" round block @click="router.push('/order')">{{ $t('tracking.backToMenu') }}</van-button>

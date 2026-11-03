@@ -11,7 +11,7 @@
       <DiningBadge :dining-type="order.diningType" :table-code="order.table?.code || order.tableCode" class="shrink-0 mt-0.5" />
     </div>
 
-    <van-steps :active="getStepIndex(order.status, order.paymentStatus)" active-color="#607234" class="py-2">
+    <van-steps :active="getStepIndex(order.status, order.paymentStatus)" active-color="#2563eb" class="py-2">
       <van-step>{{ $t('tracking.stepSubmitted') }}</van-step>
       <van-step>{{ order.paymentStatus === 'PAID' ? $t('tracking.stepPaid') : $t('tracking.stepUnpaid') }}</van-step>
       <van-step>{{ $t('tracking.stepCooking') }}</van-step>
@@ -28,7 +28,7 @@
       </van-button>
     </div>
     <van-notice-bar v-else-if="order.paymentStatus === 'UNPAID' && order.paymentMethod === 'CASH'" class="mt-3 rounded-lg" left-icon="info-o" :text="$t('tracking.cashNotice')" wrapable :scrollable="false" />
-    <van-notice-bar v-else-if="order.status === 'COOKING'" class="mt-3 rounded-lg" left-icon="fire-o" color="#607234" background="#eff3e4" :text="$t('status.cookingNotice')" wrapable :scrollable="false" />
+    <van-notice-bar v-else-if="order.status === 'COOKING'" class="mt-3 rounded-lg" left-icon="fire-o" color="#2563eb" background="#eff4ff" :text="$t('status.cookingNotice')" wrapable :scrollable="false" />
   </div>
 </template>
 
