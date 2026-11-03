@@ -13,23 +13,3 @@ body {
 * {
   box-sizing: border-box;
 }
-
-/* 固定驗證欄位高度，消除錯誤訊息出現時的欄位伸縮 (Zero Layout Shift) */
-.stable-field {
-  position: relative !important;
-  min-height: 56px !important;
-  padding-bottom: 16px !important;
-}
-
-.stable-field .van-field__error-message {
-  position: absolute !important;
-  bottom: 2px !important;
-  left: 16px !important;
-  right: 16px !important;
-  font-size: 11px !important;
-  line-height: 14px !important;
-  margin: 0 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}

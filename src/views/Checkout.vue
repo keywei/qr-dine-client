@@ -20,7 +20,7 @@
       <van-cell-group inset class="!m-0 shadow-sm rounded-xl overflow-hidden">
         <van-field
           v-model="customerPhone" :label="$t('checkout.phoneLabel')" :placeholder="$t('checkout.phonePlaceholder')"
-          type="tel" class="stable-field" :error-message="errors.customerPhone" error-message-align="left"
+          type="tel" :error-message="errors.customerPhone" error-message-align="left"
           @update:model-value="onKeyin('customerPhone')" @blur="onBlur('customerPhone')"
         />
         <van-field
