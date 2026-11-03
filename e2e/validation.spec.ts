@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { validateCheckoutForm, validateField } from '../src/utils/validation';
+import { useCheckoutValidation } from '../src/composables/useCheckoutValidation';
 
 test.describe('結帳表單 Zod 驗證測試', () => {
   test('外帶情境：未填電話應阻擋，正確 09 手機應通過', () => {
@@ -81,5 +82,47 @@ test.describe('結帳表單 Zod 驗證測試', () => {
     expect(validateField('taxId', validForm)).toBe('');
     expect(validateField('invoiceCarrier', validForm)).toBe('');
     expect(validateField('customerNote', validForm)).toBe('');
+  });
+
+  test('Keyin 即時 Debounce 驗證與有錯誤時擋住提交按鈕 (isSubmitDisabled)', async () => {
+    const diningType = { value: 'DINE_IN' as const };
+    const phone = { value: '' };
+    const mockForm = () => ({
+      diningType: diningType.value,
+      customerPhone: phone.value,
+      taxId: '',
+      invoiceCarrier: '',
+      customerNote: '',
+    });
+
+    const { errors, onKeyin, onBlur, isSubmitDisabled } = useCheckoutValidation(mockForm);
+
+    // 初始內用狀態，無錯誤且非外帶，按鈕允許點擊
+    expect(isSubmitDisabled.value).toBe(false);
+
+    // 模擬使用者 keyin 錯誤電話 "5"
+    phone.value = '5';
+    onKeyin('customerPhone');
+
+    // Debounce 尚未到達 300ms 前，error 尚未觸發
+    expect(errors.value.customerPhone).toBe('');
+
+    // 等待 350ms 後 debounce 觸發驗證
+    await new Promise((r) => setTimeout(r, 350));
+    expect(errors.value.customerPhone).toContain('09xxxxxxxx');
+    // 有錯誤時，按鈕必須被擋住 (isSubmitDisabled === true)
+    expect(isSubmitDisabled.value).toBe(true);
+
+    // 使用者 blur 時應立即驗證
+    phone.value = '0912345678';
+    onBlur('customerPhone');
+    expect(errors.value.customerPhone).toBe('');
+    expect(isSubmitDisabled.value).toBe(false);
+
+    // 外帶未填手機時，按鈕必須被擋住
+    diningType.value = 'TAKEOUT';
+    phone.value = '';
+    onBlur('customerPhone');
+    expect(isSubmitDisabled.value).toBe(true);
   });
 });

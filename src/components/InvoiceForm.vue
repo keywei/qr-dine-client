@@ -6,9 +6,10 @@
       :placeholder="$t('checkout.taxIdPlaceholder')"
       maxlength="8"
       type="digit"
+      class="stable-field"
       :error-message="taxIdError"
       error-message-align="left"
-      @update:model-value="$emit('update:taxId', $event)"
+      @update:model-value="onUpdateTaxId"
       @blur="$emit('blur', 'taxId')"
     />
     <van-field
@@ -16,9 +17,10 @@
       :label="$t('checkout.carrierLabel')"
       :placeholder="$t('checkout.carrierPlaceholder')"
       maxlength="8"
+      class="stable-field"
       :error-message="carrierError"
       error-message-align="left"
-      @update:model-value="$emit('update:invoiceCarrier', $event)"
+      @update:model-value="onUpdateCarrier"
       @blur="$emit('blur', 'invoiceCarrier')"
     />
   </van-cell-group>
@@ -32,9 +34,20 @@ defineProps<{
   carrierError?: string;
 }>();
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'update:taxId', val: string): void;
   (e: 'update:invoiceCarrier', val: string): void;
+  (e: 'keyin', field: 'taxId' | 'invoiceCarrier'): void;
   (e: 'blur', field: 'taxId' | 'invoiceCarrier'): void;
 }>();
+
+const onUpdateTaxId = (val: string) => {
+  emit('update:taxId', val);
+  emit('keyin', 'taxId');
+};
+
+const onUpdateCarrier = (val: string) => {
+  emit('update:invoiceCarrier', val);
+  emit('keyin', 'invoiceCarrier');
+};
 </script>

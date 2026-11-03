@@ -19,34 +19,19 @@
       </div>
       <van-cell-group inset class="!m-0 shadow-sm rounded-xl overflow-hidden">
         <van-field
-          v-model="customerPhone"
-          :label="$t('checkout.phoneLabel')"
-          :placeholder="$t('checkout.phonePlaceholder')"
-          type="tel"
-          :error-message="errors.customerPhone"
-          error-message-align="left"
-          @blur="onBlur('customerPhone')"
+          v-model="customerPhone" :label="$t('checkout.phoneLabel')" :placeholder="$t('checkout.phonePlaceholder')"
+          type="tel" class="stable-field" :error-message="errors.customerPhone" error-message-align="left"
+          @update:model-value="onKeyin('customerPhone')" @blur="onBlur('customerPhone')"
         />
         <van-field
-          v-model="customerNote"
-          type="textarea"
-          rows="2"
-          autosize
-          maxlength="100"
-          show-word-limit
-          :label="$t('checkout.noteLabel')"
-          :placeholder="$t('checkout.notePlaceholder')"
-          :error-message="errors.customerNote"
-          error-message-align="left"
-          @blur="onBlur('customerNote')"
+          v-model="customerNote" type="textarea" rows="2" autosize maxlength="100" show-word-limit
+          :label="$t('checkout.noteLabel')" :placeholder="$t('checkout.notePlaceholder')"
         />
       </van-cell-group>
       <InvoiceForm
-        v-model:tax-id="taxId"
-        v-model:invoice-carrier="invoiceCarrier"
-        :tax-id-error="errors.taxId"
-        :carrier-error="errors.invoiceCarrier"
-        @blur="onBlur"
+        v-model:tax-id="taxId" v-model:invoice-carrier="invoiceCarrier"
+        :tax-id-error="errors.taxId" :carrier-error="errors.invoiceCarrier"
+        @keyin="onKeyin" @blur="onBlur"
       />
     </div>
     <div class="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-100 px-4 flex justify-between items-center shadow-lg z-40">
@@ -54,7 +39,12 @@
         <span class="text-xs text-slate-500">{{ $t('checkout.payableAmount') }}</span>
         <span class="text-xl font-extrabold text-rose-600">NT$ {{ cartStore.totalAmount }}</span>
       </div>
-      <van-button type="primary" round size="large" color="linear-gradient(to right, #e11d48, #be123c)" class="!w-44 !h-10.5 !font-bold" @click="onProceedPayment">
+      <van-button
+        type="primary" round size="large" :disabled="isSubmitDisabled"
+        color="linear-gradient(to right, #e11d48, #be123c)"
+        class="!w-44 !h-10.5 !font-bold transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+        @click="onProceedPayment"
+      >
         {{ $t('checkout.confirmPaymentMethod') }}
       </van-button>
     </div>
@@ -64,9 +54,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { showToast } from 'vant';
 import { useCartStore } from '@/stores/cart';
-import { validateCheckoutForm, validateField, type CheckoutFormField } from '@/utils/validation';
+import { useCheckoutValidation } from '@/composables/useCheckoutValidation';
 import DiningBadge from '@/components/DiningBadge.vue';
 import OrderItemRow from '@/components/OrderItemRow.vue';
 import InvoiceForm from '@/components/InvoiceForm.vue';
@@ -78,13 +67,6 @@ const customerNote = ref(cartStore.checkoutInfo.customerNote || '');
 const taxId = ref(cartStore.checkoutInfo.taxId || '');
 const invoiceCarrier = ref(cartStore.checkoutInfo.invoiceCarrier || '');
 
-const errors = ref<Record<CheckoutFormField, string>>({
-  customerPhone: '',
-  customerNote: '',
-  taxId: '',
-  invoiceCarrier: '',
-});
-
 const getFormInput = () => ({
   diningType: cartStore.diningType,
   customerPhone: customerPhone.value,
@@ -93,19 +75,10 @@ const getFormInput = () => ({
   invoiceCarrier: invoiceCarrier.value,
 });
 
-const onBlur = (field: CheckoutFormField) => {
-  errors.value[field] = validateField(field, getFormInput());
-};
+const { errors, onKeyin, onBlur, isSubmitDisabled } = useCheckoutValidation(getFormInput);
 
 const onProceedPayment = () => {
-  if (cartStore.items.length === 0) return router.push('/order');
-  const input = getFormInput();
-  const valid = validateCheckoutForm(input);
-  if (!valid.success) {
-    Object.assign(errors.value, valid.errors);
-    return showToast(valid.error);
-  }
-
+  if (isSubmitDisabled.value || cartStore.items.length === 0) return;
   cartStore.setCheckoutInfo({
     customerPhone: customerPhone.value.trim() || undefined,
     customerNote: customerNote.value.trim() || undefined,
