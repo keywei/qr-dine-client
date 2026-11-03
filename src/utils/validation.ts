@@ -13,6 +13,8 @@ export interface CheckoutFormInput {
   invoiceCarrier?: string;
 }
 
+export type CheckoutFormField = 'customerPhone' | 'customerNote' | 'taxId' | 'invoiceCarrier';
+
 export const checkoutSchema = z
   .object({
     diningType: z.enum(['DINE_IN', 'TAKEOUT']),
@@ -64,13 +66,33 @@ export const checkoutSchema = z
     }
   });
 
+export const validateField = (
+  field: CheckoutFormField,
+  input: CheckoutFormInput,
+): string => {
+  const result = checkoutSchema.safeParse(input);
+  if (result.success) return '';
+  const issue = result.error.issues.find((i) => i.path[0] === field);
+  return issue ? issue.message : '';
+};
+
 export const validateCheckoutForm = (
   input: CheckoutFormInput,
-): { success: true; data: z.infer<typeof checkoutSchema> } | { success: false; error: string } => {
+): { success: true; data: z.infer<typeof checkoutSchema> } | { success: false; error: string; errors: Record<CheckoutFormField, string> } => {
   const result = checkoutSchema.safeParse(input);
   if (!result.success) {
+    const errors: Record<CheckoutFormField, string> = {
+      customerPhone: '',
+      customerNote: '',
+      taxId: '',
+      invoiceCarrier: '',
+    };
+    for (const issue of result.error.issues) {
+      const field = issue.path[0] as CheckoutFormField;
+      if (field && !errors[field]) errors[field] = issue.message;
+    }
     const firstIssue = result.error.issues[0];
-    return { success: false, error: firstIssue?.message || '資料驗證失敗' };
+    return { success: false, error: firstIssue?.message || '資料驗證失敗', errors };
   }
   return { success: true, data: result.data };
 };

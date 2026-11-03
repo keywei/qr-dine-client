@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { validateCheckoutForm } from '../src/utils/validation';
+import { validateCheckoutForm, validateField } from '../src/utils/validation';
 
 test.describe('結帳表單 Zod 驗證測試', () => {
   test('外帶情境：未填電話應阻擋，正確 09 手機應通過', () => {
@@ -52,5 +52,34 @@ test.describe('結帳表單 Zod 驗證測試', () => {
     const overLengthNote = 'A'.repeat(101);
     const invalidNote = validateCheckoutForm({ diningType: 'DINE_IN', customerNote: overLengthNote });
     expect(invalidNote.success).toBe(false);
+  });
+
+  test('欄位失焦 (Blur) 即時單一欄位驗證：精確回傳錯誤訊息，合法時回傳空字串', () => {
+    // 模擬使用者截圖情境：內用、電話填 5、統編填 2、載具填 a
+    const invalidForm = {
+      diningType: 'DINE_IN' as const,
+      customerPhone: '5',
+      taxId: '2',
+      invoiceCarrier: 'a',
+      customerNote: '3',
+    };
+
+    expect(validateField('customerPhone', invalidForm)).toContain('09xxxxxxxx');
+    expect(validateField('taxId', invalidForm)).toContain('8碼數字');
+    expect(validateField('invoiceCarrier', invalidForm)).toContain('/開頭共8碼');
+    expect(validateField('customerNote', invalidForm)).toBe('');
+
+    // 合法情境檢驗
+    const validForm = {
+      diningType: 'DINE_IN' as const,
+      customerPhone: '0912345678',
+      taxId: '12345678',
+      invoiceCarrier: '/ABC+123',
+      customerNote: '少油少鹽',
+    };
+    expect(validateField('customerPhone', validForm)).toBe('');
+    expect(validateField('taxId', validForm)).toBe('');
+    expect(validateField('invoiceCarrier', validForm)).toBe('');
+    expect(validateField('customerNote', validForm)).toBe('');
   });
 });

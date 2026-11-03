@@ -18,10 +18,36 @@
         </div>
       </div>
       <van-cell-group inset class="!m-0 shadow-sm rounded-xl overflow-hidden">
-        <van-field v-model="customerPhone" :label="$t('checkout.phoneLabel')" :placeholder="$t('checkout.phonePlaceholder')" type="tel" />
-        <van-field v-model="customerNote" type="textarea" rows="2" autosize maxlength="100" show-word-limit :label="$t('checkout.noteLabel')" :placeholder="$t('checkout.notePlaceholder')" />
+        <van-field
+          v-model="customerPhone"
+          :label="$t('checkout.phoneLabel')"
+          :placeholder="$t('checkout.phonePlaceholder')"
+          type="tel"
+          :error-message="errors.customerPhone"
+          error-message-align="left"
+          @blur="onBlur('customerPhone')"
+        />
+        <van-field
+          v-model="customerNote"
+          type="textarea"
+          rows="2"
+          autosize
+          maxlength="100"
+          show-word-limit
+          :label="$t('checkout.noteLabel')"
+          :placeholder="$t('checkout.notePlaceholder')"
+          :error-message="errors.customerNote"
+          error-message-align="left"
+          @blur="onBlur('customerNote')"
+        />
       </van-cell-group>
-      <InvoiceForm v-model:tax-id="taxId" v-model:invoice-carrier="invoiceCarrier" />
+      <InvoiceForm
+        v-model:tax-id="taxId"
+        v-model:invoice-carrier="invoiceCarrier"
+        :tax-id-error="errors.taxId"
+        :carrier-error="errors.invoiceCarrier"
+        @blur="onBlur"
+      />
     </div>
     <div class="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-100 px-4 flex justify-between items-center shadow-lg z-40">
       <div>
@@ -40,7 +66,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { showToast } from 'vant';
 import { useCartStore } from '@/stores/cart';
-import { validateCheckoutForm } from '@/utils/validation';
+import { validateCheckoutForm, validateField, type CheckoutFormField } from '@/utils/validation';
 import DiningBadge from '@/components/DiningBadge.vue';
 import OrderItemRow from '@/components/OrderItemRow.vue';
 import InvoiceForm from '@/components/InvoiceForm.vue';
@@ -52,16 +78,33 @@ const customerNote = ref(cartStore.checkoutInfo.customerNote || '');
 const taxId = ref(cartStore.checkoutInfo.taxId || '');
 const invoiceCarrier = ref(cartStore.checkoutInfo.invoiceCarrier || '');
 
+const errors = ref<Record<CheckoutFormField, string>>({
+  customerPhone: '',
+  customerNote: '',
+  taxId: '',
+  invoiceCarrier: '',
+});
+
+const getFormInput = () => ({
+  diningType: cartStore.diningType,
+  customerPhone: customerPhone.value,
+  customerNote: customerNote.value,
+  taxId: taxId.value,
+  invoiceCarrier: invoiceCarrier.value,
+});
+
+const onBlur = (field: CheckoutFormField) => {
+  errors.value[field] = validateField(field, getFormInput());
+};
+
 const onProceedPayment = () => {
   if (cartStore.items.length === 0) return router.push('/order');
-  const valid = validateCheckoutForm({
-    diningType: cartStore.diningType,
-    customerPhone: customerPhone.value,
-    customerNote: customerNote.value,
-    taxId: taxId.value,
-    invoiceCarrier: invoiceCarrier.value,
-  });
-  if (!valid.success) return showToast(valid.error);
+  const input = getFormInput();
+  const valid = validateCheckoutForm(input);
+  if (!valid.success) {
+    Object.assign(errors.value, valid.errors);
+    return showToast(valid.error);
+  }
 
   cartStore.setCheckoutInfo({
     customerPhone: customerPhone.value.trim() || undefined,
