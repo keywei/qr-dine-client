@@ -6,12 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>client</title>
     <script>
-      // 禁用 iOS / 行動裝置手勢縮放 (Pinch-to-zoom)
+      // 1. 禁用 iOS Safari 手勢縮放 (Pinch-to-zoom)
       document.addEventListener('gesturestart', (e) => e.preventDefault());
       document.addEventListener('gesturechange', (e) => e.preventDefault());
       document.addEventListener('gestureend', (e) => e.preventDefault());
+
+      // 2. 禁用多指觸控移動縮放
       document.addEventListener('touchmove', (e) => {
-        if (e.touches.length > 1) e.preventDefault();
+        if (e.touches && e.touches.length > 1) e.preventDefault();
+      }, { passive: false });
+
+      // 3. 禁用 iOS Safari 連續雙擊螢幕縮放 (Double-tap to zoom)
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', (e) => {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 350) {
+          const target = e.target;
+          const isInteractive = target && (
+            target.closest('button') ||
+            target.closest('input') ||
+            target.closest('textarea') ||
+            target.closest('.van-stepper') ||
+            target.closest('.van-button')
+          );
+          if (!isInteractive) {
+            e.preventDefault();
+          }
+        }
+        lastTouchEnd = now;
       }, { passive: false });
     </script>
   </head>
