@@ -39,7 +39,7 @@
     "dishPriceUpdatedNotice": "購物車中的「{name}」價格已更新"
   },
   "dish": {
-    "soldOut": "已估清",
+    "soldOut": "已售完",
     "defaultDescription": "特選食材精心製作",
     "chooseSpecs": "選規格",
     "unavailable": "暫停供應"

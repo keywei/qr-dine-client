@@ -14,11 +14,9 @@ export const useDishSpecs = () => {
     selectedOptionsMap.value = {};
 
     dish.options?.forEach((grp) => {
-      if (grp.type === 'SINGLE' && grp.options?.length > 0) {
+      if (grp.type === 'SINGLE' && grp.options?.length > 0)
         selectedOptionsMap.value[grp.id] = [grp.options[0]];
-      } else {
-        selectedOptionsMap.value[grp.id] = [];
-      }
+      else selectedOptionsMap.value[grp.id] = [];
     });
   };
 
@@ -34,11 +32,9 @@ export const useDishSpecs = () => {
     }
     const list = selectedOptionsMap.value[grp.id] || [];
     const idx = list.findIndex((o) => o.name === opt.name);
-    if (idx > -1) {
-      list.splice(idx, 1);
-    } else {
-      list.push(opt);
-    }
+    if (idx > -1) list.splice(idx, 1);
+    else list.push(opt);
+
     selectedOptionsMap.value[grp.id] = [...list];
   };
 
