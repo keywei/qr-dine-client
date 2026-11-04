@@ -1,10 +1,18 @@
 <template>
-  <div class="app-wrapper">
+  <div class="app-wrapper relative">
+    <NetworkStatusBanner />
     <router-view />
   </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
+import NetworkStatusBanner from '@/components/NetworkStatusBanner.vue';
+import { initClientSocket } from '@/socket';
+
+onMounted(() => {
+  initClientSocket();
+});
 </script>
 
 <style>

@@ -80,6 +80,7 @@ onMounted(() => {
   const s = getClientSocket();
   s.on('order:updated', handleOrderUpdate);
   s.on('order:status_changed', handleOrderUpdate);
+  window.addEventListener('socket:wake', fetchOrder);
 });
 
 onUnmounted(() => {
@@ -87,5 +88,6 @@ onUnmounted(() => {
   const s = getClientSocket();
   s.off('order:updated', handleOrderUpdate);
   s.off('order:status_changed', handleOrderUpdate);
+  window.removeEventListener('socket:wake', fetchOrder);
 });
 </script>

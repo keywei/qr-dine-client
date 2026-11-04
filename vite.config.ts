@@ -25,12 +25,6 @@ export default defineConfig({
       '/socket.io': {
         target: 'http://localhost:3000',
         ws: true,
-        configure: (proxy) => {
-          proxy.on('error', (err) => {
-            if ((err as NodeJS.ErrnoException).code === 'ECONNRESET') return;
-            console.error('[vite ws proxy error]:', err);
-          });
-        },
       },
     },
   },

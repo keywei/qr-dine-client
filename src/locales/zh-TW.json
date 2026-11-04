@@ -154,5 +154,9 @@
     "ticketCreated": "領取號碼牌成功！您的號碼為 #{no}",
     "calledAlert": "📢 叫號通知：您的號碼牌 #{no} 請盡速至櫃檯報到！",
     "backToOrder": "返回點餐"
+  },
+  "network": {
+    "reconnecting": "網路連線中斷，正在為您重新連線...",
+    "restored": "連線已恢復"
   }
 }
