@@ -1,6 +1,7 @@
 <template>
   <div class="app-wrapper relative">
     <NetworkStatusBanner />
+    <ServiceBellFloating :table-code="cartStore.tableCode" />
     <router-view />
   </div>
 </template>
@@ -8,7 +9,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import NetworkStatusBanner from '@/components/NetworkStatusBanner.vue';
+import ServiceBellFloating from '@/components/ServiceBellFloating.vue';
+import { useCartStore } from '@/stores/cart';
 import { initClientSocket } from '@/socket';
+
+const cartStore = useCartStore();
 
 onMounted(() => {
   initClientSocket();

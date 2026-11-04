@@ -158,5 +158,20 @@
   "network": {
     "reconnecting": "網路連線中斷，正在為您重新連線...",
     "restored": "連線已恢復"
+  },
+  "serviceBell": {
+    "title": "呼叫服務人員",
+    "table": "{code} 桌",
+    "customPlaceholder": "其他自訂需求（選填）",
+    "submit": "送出",
+    "notAvailable": "本科位服務鈴目前未開放",
+    "calledSuccess": "🛎️ 已通知服務人員，將盡速為您服務！",
+    "callFailed": "呼叫失敗，請稍候重試",
+    "options": {
+      "water": "加水 / 添茶",
+      "utensils": "餐具 / 紙巾",
+      "clean": "清理桌面",
+      "assist": "現場協助"
+    }
   }
 }
