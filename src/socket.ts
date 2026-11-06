@@ -33,15 +33,19 @@ export const initClientSocket = () => {
 
     socket.on('connect', () => {
       if (!socket?.recovered && activeRooms.size > 0) {
-        socket?.emit('batch_join', Array.from(activeRooms));
+        socket?.emit('join', Array.from(activeRooms));
       }
       window.dispatchEvent(
-        new CustomEvent('socket:status', { detail: { status: 'connected', recovered: socket?.recovered } }),
+        new CustomEvent('socket:status', {
+          detail: { status: 'connected', recovered: socket?.recovered },
+        }),
       );
     });
 
     socket.on('disconnect', (reason) => {
-      window.dispatchEvent(new CustomEvent('socket:status', { detail: { status: 'disconnected', reason } }));
+      window.dispatchEvent(
+        new CustomEvent('socket:status', { detail: { status: 'disconnected', reason } }),
+      );
     });
 
     setupLifecycleListeners(socket);

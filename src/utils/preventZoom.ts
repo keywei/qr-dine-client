@@ -3,15 +3,18 @@ export const setupPreventZoom = (): void => {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
   // 1. 禁用 iOS Safari 手勢雙指縮放 (Pinch-to-zoom)
-  document.addEventListener('gesturestart', (e) => e.preventDefault());
-  document.addEventListener('gesturechange', (e) => e.preventDefault());
-  document.addEventListener('gestureend', (e) => e.preventDefault());
+  const preventGesture = (e: Event) => {
+    if (e.cancelable) e.preventDefault();
+  };
+  document.addEventListener('gesturestart', preventGesture);
+  document.addEventListener('gesturechange', preventGesture);
+  document.addEventListener('gestureend', preventGesture);
 
   // 2. 禁用多指觸控移動縮放
   document.addEventListener(
     'touchmove',
     (e) => {
-      if (e.touches && e.touches.length > 1) {
+      if (e.touches && e.touches.length > 1 && e.cancelable) {
         e.preventDefault();
       }
     },
@@ -33,7 +36,7 @@ export const setupPreventZoom = (): void => {
             target.closest('textarea') ||
             target.closest('.van-stepper') ||
             target.closest('.van-button'));
-        if (!isInteractive) {
+        if (!isInteractive && e.cancelable) {
           e.preventDefault();
         }
       }
