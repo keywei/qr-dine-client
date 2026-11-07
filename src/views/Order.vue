@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 import { useDishSpecs } from '@/composables/useDishSpecs';
@@ -118,12 +118,18 @@ const onCatChange = () => {
   if (scrollRef.value) scrollRef.value.scrollTop = 0;
 };
 
-onMounted(() => {
+const syncDiningInfo = () => {
   const isTakeout = String(route.query.diningType || '').toUpperCase() === 'TAKEOUT';
   const tableCode = isTakeout
     ? ''
     : String(route.query.tableId || route.query.tableCode || '') || 'A1';
   cartStore.setDiningInfo(isTakeout ? 'TAKEOUT' : 'DINE_IN', tableCode);
+};
+
+watch(() => [route.query.diningType, route.query.tableId, route.query.tableCode], syncDiningInfo);
+
+onMounted(() => {
+  syncDiningInfo();
   fetchMenu();
   fetchStoreInfo();
 });

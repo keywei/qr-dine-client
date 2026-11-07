@@ -1,4 +1,4 @@
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { showToast, showNotify } from 'vant';
 import type { ServiceCallRequest } from '@/types/service';
 import { getServiceBellStatus, callServiceBell } from '../api/serviceBell';
@@ -22,6 +22,7 @@ export const useServiceBellClient = (tableCodeGetter: () => string) => {
   const startCooldown = (sec: number) => {
     cooldownSeconds.value = sec;
     if (timer) clearInterval(timer);
+    if (sec <= 0) return;
     timer = setInterval(() => {
       if (cooldownSeconds.value > 0) cooldownSeconds.value -= 1;
       else if (timer) clearInterval(timer);
@@ -30,12 +31,15 @@ export const useServiceBellClient = (tableCodeGetter: () => string) => {
 
   const fetchStatus = async () => {
     const code = tableCodeGetter();
-    if (!code) return;
+    if (!code) {
+      tableEnabled.value = false;
+      return;
+    }
     try {
       const res = await getServiceBellStatus(code);
       globalEnabled.value = res.globalEnabled;
       tableEnabled.value = res.tableEnabled;
-      if (res.cooldownSeconds && res.cooldownSeconds > 0) startCooldown(res.cooldownSeconds);
+      startCooldown(res.cooldownSeconds || 0);
     } catch {}
   };
 
@@ -72,16 +76,19 @@ export const useServiceBellClient = (tableCodeGetter: () => string) => {
     }
   };
 
+  watch(tableCodeGetter, (newCode) => {
+    if (newCode) fetchStatus();
+    else tableEnabled.value = false;
+  });
+
   onMounted(() => {
     fetchStatus();
-    const s = getClientSocket();
-    s.on('service_bell:config_changed', onConfigChanged);
+    getClientSocket().on('service_bell:config_changed', onConfigChanged);
   });
 
   onUnmounted(() => {
     if (timer) clearInterval(timer);
-    const s = getClientSocket();
-    s.off('service_bell:config_changed', onConfigChanged);
+    getClientSocket().off('service_bell:config_changed', onConfigChanged);
   });
 
   return { isAvailable, isCoolingDown, cooldownSeconds, calling, popupVisible, openBell, submitCall, fetchStatus };
