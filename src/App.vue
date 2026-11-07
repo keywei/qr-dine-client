@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper relative">
+  <div class="mx-auto min-h-screen max-w-[540px] bg-white shadow-[0_0_20px_rgba(0,0,0,0.05)] relative">
     <NetworkStatusBanner />
     <ServiceBellFloating :table-code="cartStore.tableCode" />
     <router-view />
@@ -19,27 +19,3 @@ onMounted(() => {
   initClientSocket();
 });
 </script>
-
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    sans-serif;
-  color: #1e293b;
-  background-color: #f7f7f9;
-  -webkit-font-smoothing: antialiased;
-}
-
-.app-wrapper {
-  max-width: 540px;
-  margin: 0 auto;
-  min-height: 100vh;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-  background-color: #ffffff;
-}
-</style>

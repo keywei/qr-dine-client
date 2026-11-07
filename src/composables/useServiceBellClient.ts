@@ -1,6 +1,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { showToast, showNotify } from 'vant';
-import { getServiceBellStatus, callServiceBell, type ServiceCallRequest } from '../api/serviceBell';
+import type { ServiceCallRequest } from '@/types/service';
+import { getServiceBellStatus, callServiceBell } from '../api/serviceBell';
 import { getClientSocket } from '../socket';
 import i18n from '../locales';
 

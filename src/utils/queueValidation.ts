@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { PHONE_REGEX } from './validation';
+import { type QueueValidateResult } from '@/types/queue';
 
 export const queueSchema = z.object({
   customerPhone: z
@@ -13,14 +14,11 @@ export const queueSchema = z.object({
     .max(10, '用餐人數最多 10 位'),
 });
 
-export const validateQueueForm = (input: {
-  customerPhone: string;
-  partySize: number;
-}): { success: true; data: z.infer<typeof queueSchema> } | { success: false; error: string } => {
+export const validateQueueForm = (
+  input: z.input<typeof queueSchema>,
+): QueueValidateResult<z.infer<typeof queueSchema>> => {
   const result = queueSchema.safeParse(input);
-  if (!result.success) {
-    const firstIssue = result.error.issues[0];
-    return { success: false, error: firstIssue?.message || '資料驗證失敗' };
-  }
-  return { success: true, data: result.data };
+  return result.success
+    ? { success: true, data: result.data }
+    : { success: false, error: result.error.issues[0]?.message ?? '資料驗證失敗' };
 };

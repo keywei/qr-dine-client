@@ -58,8 +58,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { ServiceCallRequest } from '@/types/service';
 import { useServiceBellClient } from '@/composables/useServiceBellClient';
-import type { ServiceCallRequest } from '@/api/serviceBell';
 import ServiceBellIcon from './ServiceBellIcon.vue';
 
 type BellIconType = 'bell' | 'water' | 'utensils' | 'clean' | 'assist';

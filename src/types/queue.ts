@@ -28,3 +28,5 @@ export interface CreateQueueDTO {
   customerPhone: string;
   partySize: number;
 }
+
+export type QueueValidateResult<T, E = string> = { success: true; data: T } | { success: false; error: E };
