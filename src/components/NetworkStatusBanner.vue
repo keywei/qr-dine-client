@@ -2,10 +2,10 @@
   <transition name="banner-fade">
     <div
       v-if="visible"
-      class="fixed top-2.5 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none"
+      class="pointer-events-none fixed left-1/2 top-2.5 z-[9999] -translate-x-1/2"
     >
       <div
-        class="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-md transition-colors"
+        class="flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold shadow-md transition-colors"
         :class="
           isDisconnected
             ? 'bg-[#0f0f11]/90 text-amber-300 backdrop-blur-sm'
@@ -13,8 +13,8 @@
         "
       >
         <span
-          class="w-2 h-2 rounded-full"
-          :class="isDisconnected ? 'bg-amber-400 animate-pulse' : 'bg-white'"
+          class="h-2 w-2 rounded-full"
+          :class="isDisconnected ? 'animate-pulse bg-amber-400' : 'bg-white'"
         />
         <span>{{ isDisconnected ? t('network.reconnecting') : t('network.restored') }}</span>
       </div>

@@ -3,6 +3,7 @@ import { setActivePinia, createPinia } from 'pinia';
 import { useCartStore } from '../src/stores/cart';
 import { handleMenuUpdateNotification } from '../src/composables/useMenuSync';
 import type { MenuItemUpdatedPayload } from '../src/types';
+import { createMockMenuItem } from './fixtures/factories';
 
 test.describe('餐點異動即時同步與購物車檢測 (Menu Sync)', () => {
   test.beforeEach(() => {
@@ -10,19 +11,24 @@ test.describe('餐點異動即時同步與購物車檢測 (Menu Sync)', () => {
   });
 
   const mockTranslate = (key: string, values?: Record<string, unknown>) => {
-    if (key === 'cart.dishUnavailableNotice') return `您選購的餐點「${values?.name}」已下架或售罄`;
-    if (key === 'cart.dishPriceUpdatedNotice') return `購物車中的「${values?.name}」價格已更新`;
+    if (key === 'cart.dishUnavailableNotice') return `餐點「${values?.name}」已下架`;
+    if (key === 'cart.dishPriceUpdatedNotice') return `「${values?.name}」價格已更新`;
     return key;
   };
 
   test('購物車內有該品項時，觸發下架/停售事件，品項應被自動移除並通知', () => {
+    // 1. Arrange: 購物車加入餐點
     const cart = useCartStore();
-    cart.addItem({ id: 101, categoryId: 1, name: '招牌牛肉麵', price: 150, description: '', imageUrl: null, isAvailable: true }, 2, '微辣', 150);
+    const item = createMockMenuItem({ id: 101, name: '招牌牛肉麵', price: 150 });
+    cart.addItem(item, 2, '微辣', 150);
     expect(cart.items.length).toBe(1);
     expect(cart.totalAmount).toBe(300);
 
+    // 2. Act: 下架通知
     const payload: MenuItemUpdatedPayload = { id: 101, name: '招牌牛肉麵', price: 150, isAvailable: false, action: 'toggle' };
     const res = handleMenuUpdateNotification(payload, cart, mockTranslate);
+
+    // 3. Assert: 自動移除並清空金額
     expect(res.affected).toBe(true);
     expect(res.removed).toBe(true);
     expect(cart.items.length).toBe(0);
@@ -31,10 +37,11 @@ test.describe('餐點異動即時同步與購物車檢測 (Menu Sync)', () => {
 
   test('購物車內無該品項時，觸發下架事件，不影響購物車亦不觸發多餘動作', () => {
     const cart = useCartStore();
-    cart.addItem({ id: 202, categoryId: 1, name: '滷肉飯', price: 50, description: '', imageUrl: null, isAvailable: true }, 1, '', 50);
+    cart.addItem(createMockMenuItem({ id: 202, name: '滷肉飯', price: 50 }), 1, '', 50);
 
     const payload: MenuItemUpdatedPayload = { id: 999, name: '珍珠奶茶', price: 60, isAvailable: false, action: 'toggle' };
     const res = handleMenuUpdateNotification(payload, cart, mockTranslate);
+
     expect(res.affected).toBe(false);
     expect(res.removed).toBe(false);
     expect(cart.items.length).toBe(1);
@@ -42,11 +49,12 @@ test.describe('餐點異動即時同步與購物車檢測 (Menu Sync)', () => {
 
   test('品項價格變更時，購物車金額與總額應同步聯動更新', () => {
     const cart = useCartStore();
-    cart.addItem({ id: 303, categoryId: 2, name: '燙青菜', price: 40, description: '', imageUrl: null, isAvailable: true }, 3, '', 40);
+    cart.addItem(createMockMenuItem({ id: 303, name: '燙青菜', price: 40 }), 3, '', 40);
     expect(cart.totalAmount).toBe(120);
 
     const payload: MenuItemUpdatedPayload = { id: 303, name: '特級燙青菜', price: 45, isAvailable: true, action: 'updated' };
     const res = handleMenuUpdateNotification(payload, cart, mockTranslate);
+
     expect(res.affected).toBe(true);
     expect(res.priceUpdated).toBe(true);
     expect(cart.items[0].name).toBe('特級燙青菜');
